@@ -278,5 +278,35 @@
     "first_seen": null,
     "changed": null,
     "hash": "ea49b5a4259e"
+  },
+  "21.1": {
+    "first_seen": "2026-11-11",
+    "changed": null,
+    "hash": "204458a14027"
+  },
+  "21.2": {
+    "first_seen": "2026-11-11",
+    "changed": null,
+    "hash": "d6d29df9b9e5"
+  },
+  "21.3": {
+    "first_seen": "2026-11-11",
+    "changed": null,
+    "hash": "37b2b8d6affa"
+  },
+  "21.4": {
+    "first_seen": "2026-11-11",
+    "changed": null,
+    "hash": "e5399ee76fc4"
+  },
+  "21.5": {
+    "first_seen": "2026-11-11",
+    "changed": null,
+    "hash": "c40d9ce59ba3"
+  },
+  "21.6": {
+    "first_seen": "2026-11-11",
+    "changed": null,
+    "hash": "db378b9ab2b3"
   }
 }
