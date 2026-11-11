@@ -1,0 +1,68 @@
+name: 원작자 동기화 및 페이지 배포
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # 매시 17분에 원작자 저장소 확인
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: sync-and-deploy
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy: ${{ steps.commit.outputs.changed == 'true' || github.event_name != 'schedule' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 원작자 저장소 가져오기
+        run: |
+          git clone --depth 1 https://github.com/jarlini69420-bit/Read-only-Public-Clipboard-.git upstream
+          echo "UPSTREAM_SHA=$(git -C upstream rev-parse --short HEAD)" >> "$GITHUB_ENV"
+
+      - name: 새 커밋이면 변환
+        run: |
+          OLD=$(python3 -c "import json;print(json.load(open('data/meta.json')).get('upstream_sha',''))" 2>/dev/null || true)
+          if [ "$OLD" != "$UPSTREAM_SHA" ]; then
+            python3 scripts/sync.py upstream/contents.json "$UPSTREAM_SHA"
+          else
+            echo "원작자 변경 없음 ($UPSTREAM_SHA)"
+          fi
+          rm -rf upstream
+
+      - name: 바뀐 것이 있으면 커밋
+        id: commit
+        run: |
+          if [ -n "$(git status --porcelain data)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -m "원작자 ${UPSTREAM_SHA} 반영"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: sync
+    if: needs.sync.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

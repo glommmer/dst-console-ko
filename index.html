@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DST 모바일 콘솔 명령 모음</title>
+<meta name="description" content="돈스타브 투게더 모바일 콘솔 명령을 한국어로 쉽게 정리하고, 스마트 따옴표 문제가 없도록 대괄호로 바꾼 모음입니다.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#f6f1e7; --panel:#fffdf8; --panel2:#f1e9da; --ink:#2b2219; --muted:#6f6353; --line:#e2d6c2;
+  --accent:#a2471f; --accent-ink:#fff; --local:#2f6fb0; --local-bg:#e4eef9; --remote:#b4541a; --remote-bg:#fbe9dc;
+  --ok:#2f7d4b; --warn:#a15c00; --warn-bg:#fdf0d6; --new:#7a3cc2; --new-bg:#efe5fb; --code:#2a241d; --code-ink:#f3eadb;
+  --radius:14px; --shadow:0 1px 2px rgba(60,40,20,.06),0 4px 14px rgba(60,40,20,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#17130f; --panel:#221c16; --panel2:#2b241c; --ink:#f1e8da; --muted:#b3a58f; --line:#3a3127;
+    --accent:#e07a45; --accent-ink:#1b120b; --local:#8bbcf0; --local-bg:#1d2a3a; --remote:#f3a16b; --remote-bg:#3a2416;
+    --ok:#7fd19b; --warn:#f2c069; --warn-bg:#3a2c12; --new:#c9a6f5; --new-bg:#2d2140; --code:#0f0c09; --code-ink:#eadfcd;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 64px}
+header.top{padding:28px 0 8px}
+h1{font-size:1.55rem;line-height:1.3;margin:0 0 6px;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 12px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:.88rem;color:var(--muted)}
+.meta a{white-space:nowrap}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+details.guide{margin:18px 0 6px;padding:0}
+details.guide>summary{list-style:none;cursor:pointer;padding:16px 18px;font-weight:700;display:flex;align-items:center;gap:10px}
+details.guide>summary::-webkit-details-marker{display:none}
+details.guide>summary::after{content:"펼치기";margin-left:auto;font-size:.82rem;font-weight:500;color:var(--muted)}
+details.guide[open]>summary::after{content:"접기"}
+.guide-body{padding:0 18px 18px}
+.guide ol{margin:0;padding-left:1.3em}
+.guide li{margin:0 0 12px}
+.guide li b{display:block}
+.guide p{margin:4px 0}
+.callout{background:var(--panel2);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:.94rem}
+.toolbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;margin-top:12px}
+.search{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.search:focus{outline:2px solid var(--accent);outline-offset:1px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font:inherit;font-size:.9rem;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.count{font-size:.85rem;color:var(--muted);margin:4px 2px 0}
+.list{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.feature{padding:16px 16px 6px}
+.feature>h2{font-size:1.12rem;margin:0 0 4px;line-height:1.4}
+.feature .sum{margin:0 0 6px}
+.order{font-size:.9rem;background:var(--panel2);border-radius:10px;padding:8px 12px;margin:8px 0 6px}
+.order b{margin-right:6px}
+.cmd{border-top:1px dashed var(--line);padding:14px 0 12px;scroll-margin-top:190px}
+.feature>.cmd:first-of-type{border-top:0;padding-top:8px}
+.feature.single>.cmd{border-top:0;padding-top:4px}
+.cmd-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-bottom:4px}
+.num{font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem}
+.cmd h3{font-size:1rem;margin:0;line-height:1.4;flex:1 1 180px}
+.badge{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.02em;padding:2px 8px;border-radius:999px;line-height:1.6;white-space:nowrap}
+.b-local{background:var(--local-bg);color:var(--local)}
+.b-remote{background:var(--remote-bg);color:var(--remote)}
+.b-opt{background:var(--panel2);color:var(--muted)}
+.b-new{background:var(--new-bg);color:var(--new)}
+.b-upd{background:var(--warn-bg);color:var(--warn)}
+.b-pending{background:var(--warn-bg);color:var(--warn)}
+.cmd p{margin:2px 0 6px}
+.tips{margin:4px 0 8px;padding-left:1.15em;color:var(--muted);font-size:.93rem}
+.tips li{margin:2px 0}
+.orig{font-size:.85rem;color:var(--muted);margin:0 0 6px}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:6px}
+.copy{font:inherit;font-weight:700;padding:10px 18px;border-radius:10px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;min-height:44px}
+.copy:active{transform:translateY(1px)}
+.copy.done{background:var(--ok);color:#fff}
+.len{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.len.over{color:var(--warn);font-weight:700}
+.toggle{font:inherit;font-size:.88rem;background:none;border:0;color:var(--accent);cursor:pointer;padding:8px 2px;min-height:44px}
+pre.code{display:none;margin:8px 0 2px;background:var(--code);color:var(--code-ink);border-radius:10px;padding:12px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-all;max-height:260px;overflow:auto}
+pre.code.show{display:block}
+.warnbox{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:8px 12px;font-size:.9rem;margin:6px 0}
+.alt{background:var(--panel2);border-radius:10px;padding:10px 12px;margin:8px 0}
+.alt b{display:block;margin-bottom:4px}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+footer{margin-top:36px;font-size:.88rem;color:var(--muted)}
+footer p{margin:6px 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:.92rem;opacity:0;transition:.2s;pointer-events:none;z-index:20;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (min-width:640px){h1{font-size:1.9rem}.feature{padding:20px 22px 8px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>DST 모바일 콘솔 명령 모음</h1>
+    <p class="lead">돈스타브 투게더 모바일에서 쓸 수 있는 콘솔 명령을 쉽게 설명하고, 복사 한 번으로 바로 쓸 수 있게 정리했습니다.</p>
+    <div class="meta">
+      <span id="synced">불러오는 중…</span>
+      <a href="https://jarlini69420-bit.github.io/Read-only-Public-Clipboard-/" target="_blank" rel="noopener">원작자 페이지(영어)</a>
+      <a href="https://jarlini69420-bit.github.io/Read-only-Public-Clipboard-/dst-button-placer" target="_blank" rel="noopener">버튼 위치 조정 도구</a>
+    </div>
+  </header>
+
+  <details class="guide card" id="guide">
+    <summary>처음이세요? 사용 방법 5단계</summary>
+    <div class="guide-body">
+      <ol>
+        <li><b>게임 안에서 콘솔 창을 엽니다.</b>
+          <p>콘솔 입력칸 근처에 <span class="badge b-local">LOCAL</span> / <span class="badge b-remote">REMOTE</span> 를 고르는 스위치가 있습니다.</p></li>
+        <li><b>명령마다 붙은 표시대로 LOCAL 또는 REMOTE를 고릅니다.</b>
+          <p><span class="badge b-local">LOCAL</span> 은 내 화면에서만 실행(버튼, 표시 등). <span class="badge b-remote">REMOTE</span> 는 서버에서 실행(게임 규칙을 바꾸는 것)이라 보통 방장이나 관리자만 쓸 수 있습니다.</p></li>
+        <li><b>이 페이지에서 ‘복사’를 누르고, 콘솔에 붙여 넣어 실행합니다.</b>
+          <p>콘솔은 한 줄에 999자까지만 받습니다. 이 페이지의 명령은 모두 그 안에 맞춰져 있습니다.</p></li>
+        <li><b>여러 개로 나뉜 기능은 번호 순서대로 모두 실행합니다.</b>
+          <p>‘선택’ 표시가 있는 것은 건너뛰어도 됩니다.</p></li>
+        <li><b>매번 다시 붙여 넣기 싫다면 저장해 두세요.</b>
+          <p>끝에 <code>--M</code> 이 붙은 명령을 실행한 뒤 <a href="#c-8.3">8.3</a>으로 저장하면, 다음부터는 접속할 때마다 <a href="#c-8.2">8.2</a> 한 줄만 실행하면 됩니다.</p></li>
+      </ol>
+      <div class="callout"><b>왜 따옴표 대신 [[ ]] 를 쓰나요?</b><br>아이폰 등의 ‘스마트 구두점’ 기능이 곧은 따옴표 " 를 둥근 따옴표 “ ” 로 바꿔 버려 명령이 깨집니다. 그래서 이 페이지는 원작자의 명령을 의미가 똑같은 <code>[[글자]]</code> 형태로 바꿔 두었습니다. 직접 명령을 고칠 때도 따옴표 대신 [[ ]] 를 쓰면 안전합니다.</div>
+    </div>
+  </details>
+
+  <div class="toolbar">
+    <input class="search" id="q" type="search" placeholder="찾기: 체력바, 미니맵, 8.3 …" aria-label="명령 찾기">
+    <div class="chips" id="chips" role="group" aria-label="분류"></div>
+    <div class="count" id="count"></div>
+  </div>
+
+  <main class="list" id="list"><p class="empty">불러오는 중…</p></main>
+
+  <footer>
+    <p>명령 원작자: <a href="https://github.com/jarlini69420-bit/Read-only-Public-Clipboard-" target="_blank" rel="noopener">StarvedSteve (Read-only Public Clipboard)</a>, MIT License. 이 페이지는 원작자와 관련 없는 비공식 한국어 정리본입니다.</p>
+    <p>원작자 저장소를 매시간 확인해 새 명령을 자동으로 반영합니다. 새 명령의 한국어 설명은 하루 안에 채워집니다.</p>
+    <p><a href="https://github.com/glommmer/dst-console-ko" target="_blank" rel="noopener">이 페이지의 저장소</a></p>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var CATS=[["all","전체"],["new","새로 추가·업데이트"],["button","화면 버튼·조작"],["info","정보 표시·알림"],["macro","저장·관리"],["misc","편의·기타"],["server","서버·테스트"],["ref","참고"]];
+  var FRESH_DAYS=14, LIMIT=999;
+  var state={cat:"all",q:""}, model=[];
+  var $=function(id){return document.getElementById(id);};
+
+  function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
+  function badge(cls,text){return el("span","badge "+cls,text);}
+  function daysAgo(d){if(!d)return Infinity;return (Date.now()-new Date(d+"T00:00:00").getTime())/864e5;}
+  function getJSON(p){return fetch(p,{cache:"no-cache"}).then(function(r){if(!r.ok)throw new Error(p);return r.json();});}
+
+  function toast(msg){var t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove("show");},1600);}
+  function copyText(text,btn){
+    function done(){btn.classList.add("done");var o=btn.dataset.label;btn.textContent="복사했어요";toast("복사했어요. 콘솔에 붙여 넣으세요.");setTimeout(function(){btn.classList.remove("done");btn.textContent=o;},1500);}
+    function fallback(){var a=document.createElement("textarea");a.value=text;a.setAttribute("readonly","");a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();a.setSelectionRange(0,text.length);var ok=false;try{ok=document.execCommand("copy");}catch(e){}document.body.removeChild(a);if(ok)done();else toast("복사에 실패했어요. ‘코드 보기’에서 직접 선택해 주세요.");}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done,fallback);}else fallback();
+  }
+
+  function build(cmds,ko,seen){
+    var groups=ko.groups||{}, kc=ko.commands||{}, out=[], byGroup={};
+    cmds.forEach(function(c){
+      var k=kc[c.id], s=seen[c.id]||{};
+      var item={c:c,k:k,ready:!!(k&&k.hash===c.hash),isNew:daysAgo(s.first_seen)<=FRESH_DAYS,isUpd:daysAgo(s.changed)<=FRESH_DAYS};
+      item.mode=(k&&k.mode!=null&&k.mode!=="")?k.mode:c.mode;
+      item.cat=k?k.cat:"new";
+      var g=k&&k.group;
+      if(g&&groups[g]){
+        if(!byGroup[g]){byGroup[g]={type:"group",id:g,g:groups[g],items:[]};out.push(byGroup[g]);}
+        byGroup[g].items.push(item);
+      }else out.push({type:"single",id:c.id,items:[item]});
+    });
+    out.forEach(function(f){
+      f.cat=f.items[0].cat;
+      f.fresh=f.items.some(function(i){return i.isNew||i.isUpd||!i.ready;});
+      f.hay=[f.g?f.g.title+" "+f.g.summary:""].concat(f.items.map(function(i){return [i.c.id,i.c.label,i.k?i.k.title+" "+i.k.summary+" "+(i.k.tips||[]).join(" "):""].join(" ");})).join(" ").toLowerCase();
+    });
+    return out;
+  }
+
+  function renderCmd(i,inGroup){
+    var c=i.c,k=i.k,box=el("section","cmd");box.id="c-"+c.id;
+    var head=el("div","cmd-head");
+    var num=/^\d/.test(c.id)?c.id:"";
+    if(num)head.appendChild(el("span","num",num));
+    head.appendChild(el("h3",null,k?k.title:c.label));
+    if(i.mode==="LOCAL")head.appendChild(badge("b-local","LOCAL"));
+    if(i.mode==="REMOTE")head.appendChild(badge("b-remote","REMOTE"));
+    if(k&&k.optional)head.appendChild(badge("b-opt","선택"));
+    if(i.isNew)head.appendChild(badge("b-new","NEW"));
+    else if(i.isUpd)head.appendChild(badge("b-upd","업데이트"));
+    box.appendChild(head);
+    if(!k){
+      box.appendChild(el("p",null,"원작자가 새로 올린 명령입니다. 한국어 설명은 곧 채워집니다."));
+      box.appendChild(el("p","orig","원문 제목: "+c.label));
+    }else{
+      if(!i.ready)box.appendChild(el("div","warnbox","원작자가 이 명령을 고쳤습니다. 아래 설명은 고치기 전 기준이라 일부 다를 수 있어요."));
+      box.appendChild(el("p",null,k.summary));
+      if(k.tips&&k.tips.length){var ul=el("ul","tips");k.tips.forEach(function(t){ul.appendChild(el("li",null,t));});box.appendChild(ul);}
+      if(k.alt_text){var alt=el("div","alt");alt.appendChild(el("b",null,k.alt_title||"한국어 버전"));alt.appendChild(el("span",null,k.alt_text));box.appendChild(alt);
+        var ab=el("button","copy","한국어 문장 복사");ab.type="button";ab.dataset.label=ab.textContent;ab.addEventListener("click",function(){copyText(k.alt_text,ab);});var aw=el("div","actions");aw.appendChild(ab);box.appendChild(aw);}
+    }
+    if(c.flags&&c.flags.indexOf("convert_failed")>-1)box.appendChild(el("div","warnbox","이 명령은 자동 변환에 실패해 원문(따옴표 포함) 그대로입니다. 스마트 구두점을 끄고 붙여 넣으세요."));
+    var act=el("div","actions");
+    var btn=el("button","copy",c.kind==="text"?"원문(영어) 복사":"복사");btn.type="button";btn.dataset.label=btn.textContent;
+    btn.addEventListener("click",function(){copyText(c.text,btn);});
+    act.appendChild(btn);
+    if(c.kind!=="text"){var len=el("span","len"+(c.length>LIMIT?" over":""),c.length+"자"+(c.length>LIMIT?" (콘솔 한도 초과)":""));act.appendChild(len);}
+    var pre=el("pre","code",c.text);
+    var tg=el("button","toggle","코드 보기");tg.type="button";tg.setAttribute("aria-expanded","false");
+    tg.addEventListener("click",function(){var s=pre.classList.toggle("show");tg.textContent=s?"코드 숨기기":"코드 보기";tg.setAttribute("aria-expanded",String(s));});
+    act.appendChild(tg);
+    box.appendChild(act);box.appendChild(pre);
+    return box;
+  }
+
+  function render(){
+    var q=state.q.trim().toLowerCase(), list=$("list"), shown=0;
+    list.textContent="";
+    model.forEach(function(f){
+      if(state.cat==="new"){if(!f.fresh)return;}
+      else if(state.cat!=="all"&&f.cat!==state.cat)return;
+      if(q&&f.hay.indexOf(q)<0)return;
+      shown++;
+      var card=el("article","card feature"+(f.type==="single"?" single":""));
+      if(f.type==="group"){
+        card.appendChild(el("h2",null,f.g.title));
+        card.appendChild(el("p","sum",f.g.summary));
+        if(f.g.order){var o=el("div","order");o.appendChild(el("b",null,"실행 순서"));o.appendChild(document.createTextNode(f.g.order));card.appendChild(o);}
+      }
+      f.items.forEach(function(i){card.appendChild(renderCmd(i,f.type==="group"));});
+      list.appendChild(card);
+    });
+    if(!shown)list.appendChild(el("p","empty","찾는 명령이 없어요."));
+    $("count").textContent=shown+"개 기능";
+  }
+
+  function renderChips(){
+    var box=$("chips");box.textContent="";
+    var hasFresh=model.some(function(f){return f.fresh;});
+    CATS.forEach(function(p){
+      if(p[0]==="new"&&!hasFresh)return;
+      if(p[0]!=="all"&&p[0]!=="new"&&!model.some(function(f){return f.cat===p[0];}))return;
+      var b=el("button","chip",p[1]);b.type="button";b.setAttribute("aria-pressed",String(state.cat===p[0]));
+      b.addEventListener("click",function(){state.cat=p[0];renderChips();render();});
+      box.appendChild(b);
+    });
+  }
+
+  $("q").addEventListener("input",function(e){state.q=e.target.value;render();});
+  try{if(!localStorage.getItem("ko-guide-seen")){$("guide").open=true;localStorage.setItem("ko-guide-seen","1");}}catch(e){$("guide").open=true;}
+
+  Promise.all([getJSON("data/commands.json"),getJSON("data/ko.json"),getJSON("data/seen.json").catch(function(){return {};}),getJSON("data/meta.json").catch(function(){return {};})])
+  .then(function(r){
+    model=build(r[0],r[1],r[2]);
+    var m=r[3];
+    if(m.synced_at){var d=new Date(m.synced_at);$("synced").textContent="원작자 최신 반영: "+d.toLocaleString("ko-KR",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});}
+    else $("synced").textContent="";
+    renderChips();render();
+    if(location.hash){var t=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(t)t.scrollIntoView();}
+  })
+  .catch(function(){$("list").textContent="";$("list").appendChild(el("p","empty","명령 목록을 불러오지 못했어요. 잠시 뒤 새로고침해 주세요."));});
+})();
+</script>
+</body>
+</html>
