@@ -106,23 +106,23 @@
   },
   "10.1": {
     "first_seen": null,
-    "changed": null,
-    "hash": "5afa375287a7"
+    "changed": "2026-11-12",
+    "hash": "d5a957f76737"
   },
   "10.2": {
     "first_seen": null,
-    "changed": null,
-    "hash": "c57fe43dfab5"
+    "changed": "2026-11-12",
+    "hash": "353b2f21159a"
   },
   "10.3": {
     "first_seen": null,
-    "changed": null,
-    "hash": "c8a0d0b2f611"
+    "changed": "2026-11-12",
+    "hash": "4fa399fa6c99"
   },
   "10.4": {
     "first_seen": null,
-    "changed": null,
-    "hash": "a511f02146d5"
+    "changed": "2026-11-12",
+    "hash": "146cf93735cb"
   },
   "11.1": {
     "first_seen": null,
@@ -318,5 +318,10 @@
     "first_seen": "2026-11-11",
     "changed": null,
     "hash": "f886b8df5b87"
+  },
+  "10.5": {
+    "first_seen": "2026-11-12",
+    "changed": null,
+    "hash": "a511f02146d5"
   }
 }

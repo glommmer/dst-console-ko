@@ -254,44 +254,56 @@
   {
     "id": "10.1",
     "order": 21,
-    "label": "10.1 Season and Moon Cycle Info (1/4)",
-    "mode": "",
+    "label": "10.1 (local) Season and Moon Cycle Info (1/5)",
+    "mode": "LOCAL",
     "kind": "code",
-    "text": "MW_FM,MW_NM,MW_LOCK,MW_FS=11,1,false,nil function MW_Sync() local w=TheWorld and TheWorld.state if not w then return end local d=w.cycles+1 local p=w.moonphase if p==[[full]] then MW_FS=MW_FS or d if d-MW_FS>=5 then MW_LOCK=true end else MW_FS=nil MW_LOCK=false end if w.isnight and not MW_LOCK then if p==[[full]] then MW_FM=d%20 MW_NM=(d+10)%20 elseif p==[[new]] then MW_NM=d%20 MW_FM=(d+10)%20 end end end --M",
-    "length": 412,
-    "original_length": 406,
-    "hash": "5afa375287a7",
+    "text": "MW_MA=nil MW_ML=false MW_MC=false local M={n=[[new]],q=[[quarter]],h=[[half]],t=[[threequarter]],f=[[full]]} local Z=[[nqqqhhhtttfttthhhqqq]] function MW_Ph(i) return M[Z:sub(i,i)] end function MW_Fst(p,x) for i=1,20 do if MW_Ph(i)==p and (x==nil or (i<=10)==x) then return i end end end function MW_Say(m) if not pcall(TheNet.Say,TheNet,m,false) then Networking_SystemMessage(m) end end --M",
+    "length": 391,
+    "original_length": 379,
+    "hash": "d5a957f76737",
     "flags": []
   },
   {
     "id": "10.2",
     "order": 22,
-    "label": "10.2 Season and Moon Cycle Info (2/4)",
-    "mode": "",
+    "label": "10.2 (local) Season and Moon Cycle Info (2/5)",
+    "mode": "LOCAL",
     "kind": "code",
-    "text": "function MW_Day() MW_Sync() local w=TheWorld.state local d=w.cycles+1 local e=w.elapseddaysinseason local y=e+w.remainingdaysinseason local p=w.moonphase local nx={autumn=[[Winter]],winter=[[Spring]],spring=[[Summer]],summer=[[Autumn]]} local f=(MW_FM-d)%20 local n=(MW_NM-d)%20 local s=Networking_SystemMessage s(w.season:sub(1,1):upper()..w.season:sub(2)..[[ Day ]]..(e+1)..[[ of ]]..y..[[ | Moon: ]]..tostring(p)) s((y-e-1)..[[ days left till ]]..nx[w.season]) if MW_LOCK then s([[Moon locked full until the Celestial Champion falls]]) else s([[Full moon ]]..(f==0 and [[TODAY]] or [[in ]]..f..[[ days]])..[[ | Day ]]..(d+f)) s([[New moon ]]..(n==0 and [[TODAY]] or [[in ]]..n..[[ days]])..[[ | Day ]]..(d+n)) end end --M",
-    "length": 724,
-    "original_length": 686,
-    "hash": "c57fe43dfab5",
+    "text": "function MW_Sync() local w=TheWorld and TheWorld.state if not w then return end local d=w.cycles+1 local p=w.moonphase local x=w.iswaxingmoon local a=MW_MA local i=a and (a[1]-1+d-a[2])%20+1 local ok=i and MW_Ph(i)==p and (x==nil or (i<=10)==x) if MW_MC then MW_ML=false MW_MA={MW_Fst(p,x) or MW_Fst(p),d,true} elseif not ok then if a and p==[[full]] then MW_ML=true MW_MA={11,d,true} else MW_ML=false local k=(w.cycles%20)+1 if MW_Ph(k)==p and (x==nil or (k<=10)==x) then MW_MA={k,d,false} else local e=p==[[new]] or p==[[full]] MW_MA={(MW_Fst(p,x) or MW_Fst(p))+(e and 0 or 1),d,e} end end end MW_MC=false end function MW_Chg(c) if c then MW_MC=true end if not MW_T then MW_T=TheWorld:DoTaskInTime(.3,function() MW_T=nil MW_Sync() end) end end --M",
+    "length": 749,
+    "original_length": 743,
+    "hash": "353b2f21159a",
     "flags": []
   },
   {
     "id": "10.3",
     "order": 23,
-    "label": "10.3 Season and Moon Cycle Info (3/4)",
-    "mode": "",
+    "label": "10.3 (local) Season and Moon Cycle Info (3/5)",
+    "mode": "LOCAL",
     "kind": "code",
-    "text": "function MW_MoonWatch() local W=TheWorld if W and not W.MW_W then W.MW_W=true for _,k in ipairs{[[moonphase]],[[cycles]],[[isnight]]} do W:WatchWorldState(k,MW_Sync) end MW_Sync() end end MW_MoonWatch() --M",
-    "length": 206,
-    "original_length": 200,
-    "hash": "c8a0d0b2f611",
+    "text": "function MW_Day() MW_Sync() local w=TheWorld.state local a=MW_MA if not a then return end local d=w.cycles+1 local e=w.elapseddaysinseason local y=e+w.remainingdaysinseason local nx={autumn=[[Winter]],winter=[[Spring]],spring=[[Summer]],summer=[[Autumn]]} local m1=w.season:sub(1,1):upper()..w.season:sub(2)..[[ Day ]]..(e+1)..[[/]]..y..[[ (]]..(y-e-1)..[[ left till ]]..nx[w.season]..[[) | Moon: ]]..tostring(w.moonphase) local m2=[[Moon locked full until the Celestial Champion falls]] if not MW_ML then local i=(a[1]-1+d-a[2])%20+1 local f=(11-i)%20 local n=(1-i)%20 m2=[[Full ]]..(f==0 and [[TODAY]] or [[in ]]..f..[[d (Day ]]..(d+f)..[[)]])..[[ | New ]]..(n==0 and [[TODAY]] or [[in ]]..n..[[d (Day ]]..(d+n)..[[)]])..(a[3] and [[]] or [[ (est.)]]) end MW_Say(m1) TheWorld:DoTaskInTime(1.3,function() MW_Say(m2) end) end --M",
+    "length": 829,
+    "original_length": 785,
+    "hash": "4fa399fa6c99",
     "flags": []
   },
   {
     "id": "10.4",
     "order": 24,
-    "label": "10.4 Season and Moon Cycle Info (4/4)",
-    "mode": "",
+    "label": "10.4 (local) Season and Moon Cycle Info (4/5)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "function MW_MoonWatch() local W=TheWorld if W and not W.MW_W2 then W.MW_W2=true W:WatchWorldState([[moonphase]],function() MW_Chg(true) end) W:WatchWorldState([[cycles]],function() MW_Chg() end) MW_Sync() end end MW_MoonWatch() --M",
+    "length": 231,
+    "original_length": 227,
+    "hash": "146cf93735cb",
+    "flags": []
+  },
+  {
+    "id": "10.5",
+    "order": 25,
+    "label": "10.5 (local) season and moon cycle info (4/5)",
+    "mode": "LOCAL",
     "kind": "code",
     "text": "local IB=require [[widgets/imagebutton]] local C=require [[screens/chatinputscreen]] C.MW_O=C.MW_O or C._ctor C._ctor=function(s,...) C.MW_O(s,...) MW_MoonWatch() local W,H=TheSim:GetScreenSize() local w={x=W/2,y=H/2} local k=H/RESOLUTION_Y local b=(s.root or s):AddChild(IB([[images/global_redux.xml]],[[button_carny_long_normal.tex]],[[button_carny_long_hover.tex]],[[button_carny_long_disabled.tex]],[[button_carny_long_down.tex]])) b:SetScale(.5,.5) b:SetFont(CHATFONT) b:SetTextSize(40) b:SetText([[Day]]) b:SetPosition((0.3519*H-w.x)/k,(H-0.1389*H-w.y)/k) b:SetOnClick(function() local ok,e=pcall(MW_Day) if not ok then Networking_SystemMessage([[MW day: ]]..tostring(e)) end end) end --M",
     "length": 694,
@@ -301,7 +313,7 @@
   },
   {
     "id": "11.1",
-    "order": 25,
+    "order": 26,
     "label": "11.1 Misc (Local) Deletes commands without --M tags, run this before the commands get overwritten by your other commands",
     "mode": "LOCAL",
     "kind": "code",
@@ -313,7 +325,7 @@
   },
   {
     "id": "11.2",
-    "order": 26,
+    "order": 27,
     "label": "11.2 Misc (Local) Resets the Entire Console History! You will need to rerun all commands if you use Clip 5",
     "mode": "LOCAL",
     "kind": "code",
@@ -325,7 +337,7 @@
   },
   {
     "id": "12.1",
-    "order": 27,
+    "order": 28,
     "label": "12.1 (Local) Autorun (1/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -337,7 +349,7 @@
   },
   {
     "id": "12.2",
-    "order": 28,
+    "order": 29,
     "label": "12.2 (Local) Autorun (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -349,7 +361,7 @@
   },
   {
     "id": "12.3",
-    "order": 29,
+    "order": 30,
     "label": "12.3 (Local) Autorun (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -361,7 +373,7 @@
   },
   {
     "id": "13.1",
-    "order": 30,
+    "order": 31,
     "label": "13.1 (Local) One Tap Spellwheel",
     "mode": "LOCAL",
     "kind": "code",
@@ -373,7 +385,7 @@
   },
   {
     "id": "13.2",
-    "order": 31,
+    "order": 32,
     "label": "13.2 (Local) One Tap Spellwheel cast with Dpad (Optional) Make sure your left thumb is on the dpad before tapping the button then use the dpad to swipe to the desired spell then release dpad.",
     "mode": "LOCAL",
     "kind": "code",
@@ -385,7 +397,7 @@
   },
   {
     "id": "misc-tp-all-stranded",
-    "order": 32,
+    "order": 33,
     "label": "Misc (Remote) TP All Stranded Merms back to their homes | Highly recommended for Caves",
     "mode": "REMOTE",
     "kind": "code",
@@ -397,7 +409,7 @@
   },
   {
     "id": "14",
-    "order": 33,
+    "order": 34,
     "label": "14 (Local) Chatscreen Tap to Translate | Works best if you make your default browser float over the game before tapping any chat line to translate, else the browser will go fullscreen",
     "mode": "LOCAL",
     "kind": "code",
@@ -409,7 +421,7 @@
   },
   {
     "id": "15",
-    "order": 34,
+    "order": 35,
     "label": "15. (Local) Player Temperature",
     "mode": "LOCAL",
     "kind": "code",
@@ -421,7 +433,7 @@
   },
   {
     "id": "15.1",
-    "order": 35,
+    "order": 36,
     "label": "15.1 (Local) Farm Tiller (1/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -433,7 +445,7 @@
   },
   {
     "id": "15.2",
-    "order": 36,
+    "order": 37,
     "label": "15.2 (Local) Farm Tiller (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -445,7 +457,7 @@
   },
   {
     "id": "15.3",
-    "order": 37,
+    "order": 38,
     "label": "15.3 (Local) Farm Tiller |  Optional fluff (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -457,7 +469,7 @@
   },
   {
     "id": "16",
-    "order": 38,
+    "order": 39,
     "label": "16 (Local) Wildfire Alert",
     "mode": "LOCAL",
     "kind": "code",
@@ -469,7 +481,7 @@
   },
   {
     "id": "17.1",
-    "order": 39,
+    "order": 40,
     "label": "17.1 (Local) HP Bars (1/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -481,7 +493,7 @@
   },
   {
     "id": "17.2",
-    "order": 40,
+    "order": 41,
     "label": "17.2 (Local) HP Bars (2/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -493,7 +505,7 @@
   },
   {
     "id": "17.3",
-    "order": 41,
+    "order": 42,
     "label": "17.3 (Local) HP Bars (3/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -505,7 +517,7 @@
   },
   {
     "id": "17.4",
-    "order": 42,
+    "order": 43,
     "label": "17.4 (Local) HP Bars (4/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -517,7 +529,7 @@
   },
   {
     "id": "17.5.1",
-    "order": 43,
+    "order": 44,
     "label": "17.5.1 (Remote) HP Bars (5/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -529,7 +541,7 @@
   },
   {
     "id": "17.5.2",
-    "order": 44,
+    "order": 45,
     "label": "17.5.2 (Remote) HP Bars (Optional replacement for 17.5.1 to limit hp bars to mobs with 1400MaxHP or higher)",
     "mode": "REMOTE",
     "kind": "code",
@@ -541,7 +553,7 @@
   },
   {
     "id": "18",
-    "order": 45,
+    "order": 46,
     "label": "18 (Local) For clients so they don't get spammed by beefalo hp badge or hp bar announcers",
     "mode": "LOCAL",
     "kind": "code",
@@ -553,7 +565,7 @@
   },
   {
     "id": "19.1",
-    "order": 46,
+    "order": 47,
     "label": "19.1 (Local) Lock Mode Tap to target (cycle button removed)",
     "mode": "LOCAL",
     "kind": "code",
@@ -565,7 +577,7 @@
   },
   {
     "id": "19.2",
-    "order": 47,
+    "order": 48,
     "label": "19.2 (Local) Lock Mode Tap to target (optional) target pointer (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -577,7 +589,7 @@
   },
   {
     "id": "19.3",
-    "order": 48,
+    "order": 49,
     "label": "19.3 (Local) Lock Mode Tap to target (optional) target pointer (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -589,7 +601,7 @@
   },
   {
     "id": "20.1",
-    "order": 49,
+    "order": 50,
     "label": "20.1 (Local) Minimap (1/3) You need to reposition it with my btn placer | The stick will not work until 20.2 is ran after",
     "mode": "LOCAL",
     "kind": "code",
@@ -601,7 +613,7 @@
   },
   {
     "id": "20.2",
-    "order": 50,
+    "order": 51,
     "label": "20.2 (Local) Minimap (2/3) to zoom, open the map and zoom. note that the last position before you close the map will be the center of the minimap",
     "mode": "LOCAL",
     "kind": "code",
@@ -613,7 +625,7 @@
   },
   {
     "id": "20.3",
-    "order": 51,
+    "order": 52,
     "label": "20.3 (Local) Minimap (3/3) Optional fade and remove btn bg",
     "mode": "LOCAL",
     "kind": "code",
@@ -625,7 +637,7 @@
   },
   {
     "id": "20.4",
-    "order": 52,
+    "order": 53,
     "label": "20.4 (local) Optional toggle to hide/show minimap(tap the sanity/brain badge to toggle)",
     "mode": "LOCAL",
     "kind": "code",
@@ -637,7 +649,7 @@
   },
   {
     "id": "21.1",
-    "order": 53,
+    "order": 54,
     "label": "21.1 (Remote) Beefalo auto hitch and unhitching with beef bell warning | autorun dependency (1/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -649,7 +661,7 @@
   },
   {
     "id": "21.2",
-    "order": 54,
+    "order": 55,
     "label": "21.2 (Remote) BEEFALo AUTO HITCHING (2/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -661,7 +673,7 @@
   },
   {
     "id": "21.3",
-    "order": 55,
+    "order": 56,
     "label": "21.3 (Remote) BEEFALo AUTO HITCHING (3/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -673,7 +685,7 @@
   },
   {
     "id": "21.4",
-    "order": 56,
+    "order": 57,
     "label": "21.4 (Local) BEEFALO AUTO HITCHING (4/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -685,7 +697,7 @@
   },
   {
     "id": "21.5",
-    "order": 57,
+    "order": 58,
     "label": "21.5 (Local) Beefalo auto hitching (5/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -697,7 +709,7 @@
   },
   {
     "id": "22.1",
-    "order": 58,
+    "order": 59,
     "label": "22.1 (Local) Brightshade spawn block rangefinder (1/3) only visible during placing/planting stuff",
     "mode": "LOCAL",
     "kind": "code",
@@ -709,7 +721,7 @@
   },
   {
     "id": "22.2",
-    "order": 59,
+    "order": 60,
     "label": "22.2 (local) Brightshade spawn block rangefinder (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -721,7 +733,7 @@
   },
   {
     "id": "22.3",
-    "order": 60,
+    "order": 61,
     "label": "22.3 (local) Brightshade spawn block rangefinder (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -733,7 +745,7 @@
   },
   {
     "id": "sample-prompt-to-update",
-    "order": 61,
+    "order": 62,
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
     "mode": "",
     "kind": "text",
@@ -745,7 +757,7 @@
   },
   {
     "id": "misc-prevent-other-characters",
-    "order": 62,
+    "order": 63,
     "label": "MiSC (Local) prevent other characters from picking up winbot",
     "mode": "LOCAL",
     "kind": "code",
@@ -757,7 +769,7 @@
   },
   {
     "id": "testserver-godmode-and-free",
-    "order": 63,
+    "order": 64,
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "mode": "REMOTE",
     "kind": "code",
