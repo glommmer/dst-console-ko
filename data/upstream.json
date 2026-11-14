@@ -256,6 +256,14 @@
     "label": "23.2  (Local)  Alignment toggle (2/2)"
   },
   {
+    "text": "function MW_Grp(it) if not it:IsValid() then return end local K=function(f) return f:match([[_blueprint$]]) or f:match([[_sketch$]]) or f end local k=K(it.prefab) local x,_,z=it.Transform:GetWorldPosition() local L={} for _,o in ipairs(TheSim:FindEntities(x,0,z,5,nil,{[[INLIMBO]]})) do local v=o.components.inventoryitem if v and not v:IsHeld() and K(o.prefab)==k then L[#L+1]=o end end for _,a in ipairs(L) do local s=a:IsValid() and a.components.stackable if s then for _,b in ipairs(L) do if a~=b and b:IsValid() and b.components.stackable and not s:IsFull() then s:Put(b) end end end end local n,nd for _,o in ipairs(L) do if o:IsValid() and o~=it then local q=o:GetDistanceSqToPoint(x,0,z) if not nd or q<nd then n,nd=o,q end end end if not n then return end local a,_,c=n.Transform:GetWorldPosition() for _,o in ipairs(L) do if o:IsValid() and o~=n and o.Physics then o.Physics:Teleport(a,0,c) end end end --M",
+    "label": "24.1 (Remote) stack and group up item stacks on the ground (1/2)"
+  },
+  {
+    "text": "local p=ThePlayer if p._ds then p:RemoveEventCallback([[dropitem]],p._ds) end p._ds=function(_,d) local it=d and d.item if it and it.components.inventoryitem and not(it.sg or it.Light or it.components.health or it.components.locomotor) then it:DoTaskInTime(.7,function() if it:IsValid() then pcall(MW_Grp,it) end end) end end p:ListenForEvent([[dropitem]],p._ds) --M",
+    "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)"
+  },
+  {
     "text": "Hey! I need help adjusting the coordinate values for a custom Don't Starve Together mobile console command. Because of my device's resolution and HUD scale, the virtual buttons/UI elements created by this script aren't aligning correctly with my screen. Here is my current one-liner command: [PASTE YOUR FULL COMMAND STRING HERE] I’ve attached a screenshot of my DST mobile game in-case you need to reference the layout. Can you calculate the math for the new positions/sizes and rewrite this into an updated, single-line command string that I can copy and paste directly into the game console?",
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update"
   },

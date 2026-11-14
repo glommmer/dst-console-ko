@@ -768,8 +768,32 @@
     "flags": []
   },
   {
-    "id": "sample-prompt-to-update",
+    "id": "24.1",
     "order": 64,
+    "label": "24.1 (Remote) stack and group up item stacks on the ground (1/2)",
+    "mode": "REMOTE",
+    "kind": "code",
+    "text": "function MW_Grp(it) if not it:IsValid() then return end local K=function(f) return f:match([[_blueprint$]]) or f:match([[_sketch$]]) or f end local k=K(it.prefab) local x,_,z=it.Transform:GetWorldPosition() local L={} for _,o in ipairs(TheSim:FindEntities(x,0,z,5,nil,{[[INLIMBO]]})) do local v=o.components.inventoryitem if v and not v:IsHeld() and K(o.prefab)==k then L[#L+1]=o end end for _,a in ipairs(L) do local s=a:IsValid() and a.components.stackable if s then for _,b in ipairs(L) do if a~=b and b:IsValid() and b.components.stackable and not s:IsFull() then s:Put(b) end end end end local n,nd for _,o in ipairs(L) do if o:IsValid() and o~=it then local q=o:GetDistanceSqToPoint(x,0,z) if not nd or q<nd then n,nd=o,q end end end if not n then return end local a,_,c=n.Transform:GetWorldPosition() for _,o in ipairs(L) do if o:IsValid() and o~=n and o.Physics then o.Physics:Teleport(a,0,c) end end end --M",
+    "length": 916,
+    "original_length": 916,
+    "hash": "16bdc073d6ae",
+    "flags": []
+  },
+  {
+    "id": "24.2",
+    "order": 65,
+    "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)",
+    "mode": "REMOTE",
+    "kind": "code",
+    "text": "local p=ThePlayer if p._ds then p:RemoveEventCallback([[dropitem]],p._ds) end p._ds=function(_,d) local it=d and d.item if it and it.components.inventoryitem and not(it.sg or it.Light or it.components.health or it.components.locomotor) then it:DoTaskInTime(.7,function() if it:IsValid() then pcall(MW_Grp,it) end end) end end p:ListenForEvent([[dropitem]],p._ds) --M",
+    "length": 366,
+    "original_length": 366,
+    "hash": "6f7edabb85a9",
+    "flags": []
+  },
+  {
+    "id": "sample-prompt-to-update",
+    "order": 66,
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
     "mode": "",
     "kind": "text",
@@ -781,7 +805,7 @@
   },
   {
     "id": "misc-prevent-other-characters",
-    "order": 65,
+    "order": 67,
     "label": "MiSC (Local) prevent other characters from picking up winbot",
     "mode": "LOCAL",
     "kind": "code",
@@ -793,7 +817,7 @@
   },
   {
     "id": "testserver-godmode-and-free",
-    "order": 66,
+    "order": 68,
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "mode": "REMOTE",
     "kind": "code",

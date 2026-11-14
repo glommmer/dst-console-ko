@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "24.1",
+    "label": "24.1 (Remote) stack and group up item stacks on the ground (1/2)",
+    "reason": "new"
+  },
+  {
+    "id": "24.2",
+    "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)",
+    "reason": "new"
+  }
+]

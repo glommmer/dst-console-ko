@@ -333,5 +333,15 @@
     "first_seen": "2026-11-13",
     "changed": null,
     "hash": "69fa7e6ec051"
+  },
+  "24.1": {
+    "first_seen": "2026-11-14",
+    "changed": null,
+    "hash": "16bdc073d6ae"
+  },
+  "24.2": {
+    "first_seen": "2026-11-14",
+    "changed": null,
+    "hash": "6f7edabb85a9"
   }
 }
