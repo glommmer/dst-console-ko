@@ -252,7 +252,7 @@
   "20.2": {
     "first_seen": null,
     "changed": "2026-11-15",
-    "hash": "0bfd38103a68"
+    "hash": "edad052f5566"
   },
   "20.3": {
     "first_seen": null,
@@ -261,8 +261,8 @@
   },
   "20.4": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "0b9f9ef49c32"
+    "changed": "2026-11-15",
+    "hash": "4a2422d0b239"
   },
   "sample-prompt-to-update": {
     "first_seen": null,
@@ -276,8 +276,8 @@
   },
   "testserver-godmode-and-free": {
     "first_seen": null,
-    "changed": null,
-    "hash": "ea49b5a4259e"
+    "changed": "2026-11-15",
+    "hash": "3256615a782a"
   },
   "21.1": {
     "first_seen": "2026-11-11",
@@ -346,12 +346,17 @@
   },
   "20.1.2": {
     "first_seen": "2026-11-15",
-    "changed": null,
-    "hash": "bff7fccecf0c"
+    "changed": "2026-11-15",
+    "hash": "e79cc6f679c1"
   },
-  "20.1.3": {
+  "20.5": {
     "first_seen": "2026-11-15",
     "changed": null,
     "hash": "4424e69e2ccf"
+  },
+  "misc-manually-save-for": {
+    "first_seen": "2026-11-15",
+    "changed": null,
+    "hash": "ca2e7bd3b846"
   }
 }
