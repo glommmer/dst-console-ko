@@ -20,6 +20,11 @@
     "reason": "new"
   },
   {
+    "id": "25",
+    "label": "25 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory",
+    "reason": "new"
+  },
+  {
     "id": "testserver-godmode-and-free",
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "reason": "changed"

@@ -816,8 +816,20 @@
     "flags": []
   },
   {
-    "id": "sample-prompt-to-update",
+    "id": "25",
     "order": 68,
+    "label": "25 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory",
+    "mode": "REMOTE",
+    "kind": "code",
+    "text": "local A=ACTIONS.ATTACK A._mw=A._mw or A.fn A.fn=function(act) local t,d=act.target,act.doer local I=d and d.components.inventory if t and I and I:FindItem(function(i) return i.GetBeefalo and i:GetBeefalo()==t end) then return false end return A._mw(act) end --M",
+    "length": 261,
+    "original_length": 261,
+    "hash": "47e7dd8fc600",
+    "flags": []
+  },
+  {
+    "id": "sample-prompt-to-update",
+    "order": 69,
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
     "mode": "",
     "kind": "text",
@@ -829,7 +841,7 @@
   },
   {
     "id": "misc-prevent-other-characters",
-    "order": 69,
+    "order": 70,
     "label": "MiSC (Local) prevent other characters from picking up winbot",
     "mode": "LOCAL",
     "kind": "code",
@@ -841,7 +853,7 @@
   },
   {
     "id": "testserver-godmode-and-free",
-    "order": 70,
+    "order": 71,
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "mode": "REMOTE",
     "kind": "code",
@@ -853,7 +865,7 @@
   },
   {
     "id": "misc-manually-save-for",
-    "order": 71,
+    "order": 72,
     "label": "MISC (remote) manually save | For people having disconnect freezing bug",
     "mode": "REMOTE",
     "kind": "code",

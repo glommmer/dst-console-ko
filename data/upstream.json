@@ -272,6 +272,10 @@
     "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)"
   },
   {
+    "text": "local A=ACTIONS.ATTACK A._mw=A._mw or A.fn A.fn=function(act) local t,d=act.target,act.doer local I=d and d.components.inventory if t and I and I:FindItem(function(i) return i.GetBeefalo and i:GetBeefalo()==t end) then return false end return A._mw(act) end --M",
+    "label": "25 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory"
+  },
+  {
     "text": "Hey! I need help adjusting the coordinate values for a custom Don't Starve Together mobile console command. Because of my device's resolution and HUD scale, the virtual buttons/UI elements created by this script aren't aligning correctly with my screen. Here is my current one-liner command: [PASTE YOUR FULL COMMAND STRING HERE] I’ve attached a screenshot of my DST mobile game in-case you need to reference the layout. Can you calculate the math for the new positions/sizes and rewrite this into an updated, single-line command string that I can copy and paste directly into the game console?",
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update"
   },
