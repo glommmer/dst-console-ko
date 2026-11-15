@@ -251,8 +251,8 @@
   },
   "20.2": {
     "first_seen": null,
-    "changed": null,
-    "hash": "f153bc24f689"
+    "changed": "2026-11-15",
+    "hash": "0bfd38103a68"
   },
   "20.3": {
     "first_seen": null,
@@ -341,7 +341,17 @@
   },
   "24.2": {
     "first_seen": "2026-11-14",
+    "changed": "2026-11-15",
+    "hash": "b69fa3cbf47b"
+  },
+  "20.1.2": {
+    "first_seen": "2026-11-15",
     "changed": null,
-    "hash": "6f7edabb85a9"
+    "hash": "bff7fccecf0c"
+  },
+  "20.1.3": {
+    "first_seen": "2026-11-15",
+    "changed": null,
+    "hash": "4424e69e2ccf"
   }
 }

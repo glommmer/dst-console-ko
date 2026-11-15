@@ -612,21 +612,45 @@
     "flags": []
   },
   {
-    "id": "20.2",
+    "id": "20.1.2",
     "order": 51,
+    "label": "20.1.2 (Local) Minimap circle | Replaces 20.1",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "function MW_MC() local P=ThePlayer local C=P.HUD.controls local M=TheWorld.minimap.MiniMap if C.mm then C.mm:Kill() end local T=C.topleft_root local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x local Wd,Im=require[[widgets/widget]],require[[widgets/image]] local G=T:AddChild(Wd([[mm]])) C.mm=G G.R={} G:MoveToBack() G:SetPosition((W*0.0771-w.x)/k,(H*0.8269-w.y)/k) local p=math.max(3,math.floor(H/180+.5)) local N=math.floor(H*.3/p) local r,b,ov=N*p/2,0,4 for i=0,N-1 do local y=-r+i*p local m=y+p/2 local x=math.sqrt(math.max(0,r*r-m*m)) local c=G:AddChild(Wd()) c:SetScissor((-x)/k,(y-ov/2)/k,(2*x)/k,(p+ov)/k) local im=c:AddChild(Im()) c.im=im G.R[i+1]=c im:SetClickable(false) im.inst.ImageWidget:SetTextureHandle(M:GetTextureHandle()) im.inst.ImageWidget:SetBlendMode(BLENDMODE.Additive) if b==0 then local _,q=im:GetSize() b=q>0 and q or H end im:SetScale(N*p/k/b) end end MW_MC() --M",
+    "length": 930,
+    "original_length": 930,
+    "hash": "bff7fccecf0c",
+    "flags": []
+  },
+  {
+    "id": "20.2",
+    "order": 52,
     "label": "20.2 (Local) Minimap (2/3) to zoom, open the map and zoom. note that the last position before you close the map will be the center of the minimap",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local s=ThePlayer.HUD.controls.virtualstick s.IsTouchPositionOnStick=function(a,x,y) local b=a.bg:GetWorldPosition() local dx,dy=x-b.x,y-b.y return math.sqrt(dx*dx+dy*dy)<=200*(a:GetWorldScale().x/a:GetLooseScale()) end --M",
-    "length": 223,
-    "original_length": 223,
-    "hash": "f153bc24f689",
+    "text": "local s=ThePlayer.HUD.controls.virtualstick s.IsTouchPositionOnStick=function(a,x,y)local b=a.bg:GetWorldPosition()local dx,dy=x-b.x,y-b.y return math.sqrt(dx*dx+dy*dy)<=200*(a:GetWorldScale().x/a:GetLooseScale())end local m=TheWorld.minimap.MiniMap if not m:IsVisible()then m:ToggleVisibility()end--M",
+    "length": 301,
+    "original_length": 301,
+    "hash": "0bfd38103a68",
+    "flags": []
+  },
+  {
+    "id": "20.1.3",
+    "order": 53,
+    "label": "20.1.3 (local) Minimap optional opaque",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local C=ThePlayer.HUD.controls local G=C.mm local Im=require[[widgets/image]] local H=select(2,TheSim:GetScreenSize()) local D=H*.3/C.topleft_root:GetWorldScale().x for _,c in ipairs(G.R) do local m=c.im c:RemoveChild(m) local g=c:AddChild(Im([[images/hud.xml]],[[map.tex]])) g.inst.ImageWidget:SetBlendMode(BLENDMODE.Premultiplied) g:ScaleToSize(D*1.3,D*1.3) g:SetClickable(false) c:AddChild(m) end --M",
+    "length": 403,
+    "original_length": 403,
+    "hash": "4424e69e2ccf",
     "flags": []
   },
   {
     "id": "20.3",
-    "order": 52,
-    "label": "20.3 (Local) Minimap (3/3) Optional fade and remove btn bg",
+    "order": 54,
+    "label": "20.3 (Local) Minimap Optional fade and remove btn bg",
     "mode": "LOCAL",
     "kind": "code",
     "text": "local C=ThePlayer.HUD.controls local p=C.craftingmenu and C.craftingmenu.pinbar or {} local function F(w) local s=tostring(w.texture) if s:find([[banner]]) then w:Hide() elseif (s:find([[crafting_tab]]) or s:find([[page_bg]])) and w.SetTint then w:SetTint(1,1,1,0) end for c in pairs(w.children) do F(c) end end local function G(t) if t then t:SetFadeAlpha(.5) F(t) end end G(C.map_notification) G(C.chat_notification) G(C.burger_notification) G(p.open_menu_button) G(p.open_quickcraft_button) --M",
@@ -637,7 +661,7 @@
   },
   {
     "id": "20.4",
-    "order": 53,
+    "order": 55,
     "label": "20.4 (local) Optional toggle to hide/show minimap(tap the sanity/brain badge to toggle)",
     "mode": "LOCAL",
     "kind": "code",
@@ -649,7 +673,7 @@
   },
   {
     "id": "21.1",
-    "order": 54,
+    "order": 56,
     "label": "21.1 (Remote) Beefalo auto hitch and unhitching with beef bell warning | autorun dependency (1/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -661,7 +685,7 @@
   },
   {
     "id": "21.2",
-    "order": 55,
+    "order": 57,
     "label": "21.2 (Remote) BEEFALo AUTO HITCHING (2/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -673,7 +697,7 @@
   },
   {
     "id": "21.3",
-    "order": 56,
+    "order": 58,
     "label": "21.3 (Remote) BEEFALo AUTO HITCHING (3/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -685,7 +709,7 @@
   },
   {
     "id": "21.4",
-    "order": 57,
+    "order": 59,
     "label": "21.4 (Local) BEEFALO AUTO HITCHING (4/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -697,7 +721,7 @@
   },
   {
     "id": "21.5",
-    "order": 58,
+    "order": 60,
     "label": "21.5 (Local) Beefalo auto hitching (5/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -709,7 +733,7 @@
   },
   {
     "id": "22.1",
-    "order": 59,
+    "order": 61,
     "label": "22.1 (Local) Brightshade spawn block rangefinder (1/3) only visible during placing/planting stuff",
     "mode": "LOCAL",
     "kind": "code",
@@ -721,7 +745,7 @@
   },
   {
     "id": "22.2",
-    "order": 60,
+    "order": 62,
     "label": "22.2 (local) Brightshade spawn block rangefinder (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -733,7 +757,7 @@
   },
   {
     "id": "22.3",
-    "order": 61,
+    "order": 63,
     "label": "22.3 (local) Brightshade spawn block rangefinder (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -745,7 +769,7 @@
   },
   {
     "id": "23.1",
-    "order": 62,
+    "order": 64,
     "label": "23.1 (Local)  Alignment toggle (1/2)",
     "mode": "LOCAL",
     "kind": "code",
@@ -757,7 +781,7 @@
   },
   {
     "id": "23.2",
-    "order": 63,
+    "order": 65,
     "label": "23.2  (Local)  Alignment toggle (2/2)",
     "mode": "LOCAL",
     "kind": "code",
@@ -769,7 +793,7 @@
   },
   {
     "id": "24.1",
-    "order": 64,
+    "order": 66,
     "label": "24.1 (Remote) stack and group up item stacks on the ground (1/2)",
     "mode": "REMOTE",
     "kind": "code",
@@ -781,19 +805,19 @@
   },
   {
     "id": "24.2",
-    "order": 65,
+    "order": 67,
     "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)",
     "mode": "REMOTE",
     "kind": "code",
-    "text": "local p=ThePlayer if p._ds then p:RemoveEventCallback([[dropitem]],p._ds) end p._ds=function(_,d) local it=d and d.item if it and it.components.inventoryitem and not(it.sg or it.Light or it.components.health or it.components.locomotor) then it:DoTaskInTime(.7,function() if it:IsValid() then pcall(MW_Grp,it) end end) end end p:ListenForEvent([[dropitem]],p._ds) --M",
-    "length": 366,
-    "original_length": 366,
-    "hash": "6f7edabb85a9",
+    "text": "local p=ThePlayer if p._ds then p:RemoveEventCallback([[dropitem]],p._ds) end p._ds=function(_,d) local it=d and d.item if not(it and it.components.inventoryitem and it.Physics) or it.sg or it.Light or it.components.health or it.components.locomotor or it:HasTag([[heavy]]) then return end local ph=it.Physics local ok,g=pcall(ph.GetCollisionGroup,ph) local o2,m=pcall(ph.GetMass,ph) if (ok and g~=COLLISION.ITEMS) or (o2 and m==0) then return end it:DoTaskInTime(.7,function() if it:IsValid() then pcall(MW_Grp,it) end end) end p:ListenForEvent([[dropitem]],p._ds) --M",
+    "length": 569,
+    "original_length": 569,
+    "hash": "b69fa3cbf47b",
     "flags": []
   },
   {
     "id": "sample-prompt-to-update",
-    "order": 66,
+    "order": 68,
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
     "mode": "",
     "kind": "text",
@@ -805,7 +829,7 @@
   },
   {
     "id": "misc-prevent-other-characters",
-    "order": 67,
+    "order": 69,
     "label": "MiSC (Local) prevent other characters from picking up winbot",
     "mode": "LOCAL",
     "kind": "code",
@@ -817,7 +841,7 @@
   },
   {
     "id": "testserver-godmode-and-free",
-    "order": 68,
+    "order": 70,
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "mode": "REMOTE",
     "kind": "code",

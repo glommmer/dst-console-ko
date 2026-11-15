@@ -204,12 +204,20 @@
     "label": "20.1 (Local) Minimap (1/3) You need to reposition it with my btn placer | The stick will not work until 20.2 is ran after"
   },
   {
-    "text": "local s=ThePlayer.HUD.controls.virtualstick s.IsTouchPositionOnStick=function(a,x,y) local b=a.bg:GetWorldPosition() local dx,dy=x-b.x,y-b.y return math.sqrt(dx*dx+dy*dy)<=200*(a:GetWorldScale().x/a:GetLooseScale()) end --M",
+    "text": "function MW_MC() local P=ThePlayer local C=P.HUD.controls local M=TheWorld.minimap.MiniMap if C.mm then C.mm:Kill() end local T=C.topleft_root local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x local Wd,Im=require[[widgets/widget]],require[[widgets/image]] local G=T:AddChild(Wd([[mm]])) C.mm=G G.R={} G:MoveToBack() G:SetPosition((W*0.0771-w.x)/k,(H*0.8269-w.y)/k) local p=math.max(3,math.floor(H/180+.5)) local N=math.floor(H*.3/p) local r,b,ov=N*p/2,0,4 for i=0,N-1 do local y=-r+i*p local m=y+p/2 local x=math.sqrt(math.max(0,r*r-m*m)) local c=G:AddChild(Wd()) c:SetScissor((-x)/k,(y-ov/2)/k,(2*x)/k,(p+ov)/k) local im=c:AddChild(Im()) c.im=im G.R[i+1]=c im:SetClickable(false) im.inst.ImageWidget:SetTextureHandle(M:GetTextureHandle()) im.inst.ImageWidget:SetBlendMode(BLENDMODE.Additive) if b==0 then local _,q=im:GetSize() b=q>0 and q or H end im:SetScale(N*p/k/b) end end MW_MC() --M",
+    "label": "20.1.2 (Local) Minimap circle | Replaces 20.1"
+  },
+  {
+    "text": "local s=ThePlayer.HUD.controls.virtualstick s.IsTouchPositionOnStick=function(a,x,y)local b=a.bg:GetWorldPosition()local dx,dy=x-b.x,y-b.y return math.sqrt(dx*dx+dy*dy)<=200*(a:GetWorldScale().x/a:GetLooseScale())end local m=TheWorld.minimap.MiniMap if not m:IsVisible()then m:ToggleVisibility()end--M",
     "label": "20.2 (Local) Minimap (2/3) to zoom, open the map and zoom. note that the last position before you close the map will be the center of the minimap"
   },
   {
+    "text": "local C=ThePlayer.HUD.controls local G=C.mm local Im=require[[widgets/image]] local H=select(2,TheSim:GetScreenSize()) local D=H*.3/C.topleft_root:GetWorldScale().x for _,c in ipairs(G.R) do local m=c.im c:RemoveChild(m) local g=c:AddChild(Im([[images/hud.xml]],[[map.tex]])) g.inst.ImageWidget:SetBlendMode(BLENDMODE.Premultiplied) g:ScaleToSize(D*1.3,D*1.3) g:SetClickable(false) c:AddChild(m) end --M",
+    "label": "20.1.3 (local) Minimap optional opaque"
+  },
+  {
     "text": "local C=ThePlayer.HUD.controls local p=C.craftingmenu and C.craftingmenu.pinbar or {} local function F(w) local s=tostring(w.texture) if s:find([[banner]]) then w:Hide() elseif (s:find([[crafting_tab]]) or s:find([[page_bg]])) and w.SetTint then w:SetTint(1,1,1,0) end for c in pairs(w.children) do F(c) end end local function G(t) if t then t:SetFadeAlpha(.5) F(t) end end G(C.map_notification) G(C.chat_notification) G(C.burger_notification) G(p.open_menu_button) G(p.open_quickcraft_button) --M",
-    "label": "20.3 (Local) Minimap (3/3) Optional fade and remove btn bg"
+    "label": "20.3 (Local) Minimap Optional fade and remove btn bg"
   },
   {
     "text": "local P=ThePlayer local C=P.HUD.controls local M=TheWorld.minimap.MiniMap local b=C.status.brain b._oc=b._oc or b.OnControl local function W() local im=C.mm local o=P.HUD:IsMapScreenOpen() if not o and not M:IsVisible() then M:ToggleVisibility() end if o then im:Hide() else im:Show() end end P._mmt=function() if not C.mm then return end local T=GetTime() if P._mmz and T-P._mmz<.4 then return end P._mmz=T if C.mt then C.mt:Cancel() C.mt=nil end if P._mmo then P._mmo=nil b:SetFadeAlpha(1) W() C.mt=P:DoPeriodicTask(.4,W) ChatHistory:SendCommandResponse([[minimap on]]) else P._mmo=true b:SetFadeAlpha(.4) C.mm:Hide() if not P.HUD:IsMapScreenOpen() and M:IsVisible() then M:ToggleVisibility() end ChatHistory:SendCommandResponse([[minimap off]]) end end b.OnControl=function(s,c,d) if (c==CONTROL_ACCEPT or c==CONTROL_PRIMARY) and not d then P._mmt() return true end return s._oc(s,c,d) end --M",
@@ -260,7 +268,7 @@
     "label": "24.1 (Remote) stack and group up item stacks on the ground (1/2)"
   },
   {
-    "text": "local p=ThePlayer if p._ds then p:RemoveEventCallback([[dropitem]],p._ds) end p._ds=function(_,d) local it=d and d.item if it and it.components.inventoryitem and not(it.sg or it.Light or it.components.health or it.components.locomotor) then it:DoTaskInTime(.7,function() if it:IsValid() then pcall(MW_Grp,it) end end) end end p:ListenForEvent([[dropitem]],p._ds) --M",
+    "text": "local p=ThePlayer if p._ds then p:RemoveEventCallback([[dropitem]],p._ds) end p._ds=function(_,d) local it=d and d.item if not(it and it.components.inventoryitem and it.Physics) or it.sg or it.Light or it.components.health or it.components.locomotor or it:HasTag([[heavy]]) then return end local ph=it.Physics local ok,g=pcall(ph.GetCollisionGroup,ph) local o2,m=pcall(ph.GetMass,ph) if (ok and g~=COLLISION.ITEMS) or (o2 and m==0) then return end it:DoTaskInTime(.7,function() if it:IsValid() then pcall(MW_Grp,it) end end) end p:ListenForEvent([[dropitem]],p._ds) --M",
     "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)"
   },
   {
