@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "7.5",
+    "label": "7.5 (Local) Single tap toggle to move items from and to crockpot/storage boxes (5/6)",
+    "reason": "changed"
+  },
+  {
+    "id": "8.3",
+    "label": "8.3 (Local) Adds new commands to save in the persistent string",
+    "reason": "changed"
+  },
+  {
+    "id": "8.3.2",
+    "label": "8.3.2 (local) just 8.3 but with console history clear right after",
+    "reason": "new"
+  },
+  {
+    "id": "9.4",
+    "label": "9.4 (Local) Beefalo Badge (4/5)",
+    "reason": "changed"
+  },
+  {
+    "id": "8.5",
+    "label": "8.5 (Local) lists all commands in the macro to chat history",
+    "reason": "new"
+  },
+  {
+    "id": "8.6",
+    "label": "8.6 (local) delete commands in persistent string",
+    "reason": "new"
+  },
+  {
+    "id": "25.1",
+    "label": "25.1 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory",
+    "reason": "new"
+  },
+  {
+    "id": "26.1",
+    "label": "26.1 (Local) Chat screen+ (1/4)",
+    "reason": "new"
+  },
+  {
+    "id": "26.2",
+    "label": "26.2 (Local) Chat screen+ (2/4)",
+    "reason": "new"
+  },
+  {
+    "id": "26.3",
+    "label": "26.3 (Local) Chat screen+  (3/4)",
+    "reason": "new"
+  },
+  {
+    "id": "26.4",
+    "label": "26.4 (Local) Chat screen+ (4/4)",
+    "reason": "new"
+  },
+  {
+    "id": "misc-one-tap-open",
+    "label": "MISC (LOCAL) ONE TAP OPEN CONSOLE | requires manual position over day clock",
+    "reason": "new"
+  }
+]

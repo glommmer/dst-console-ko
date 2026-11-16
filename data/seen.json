@@ -51,8 +51,8 @@
   },
   "7.5": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "970232edd579"
+    "changed": "2026-11-16",
+    "hash": "312a4682cb35"
   },
   "7.6": {
     "first_seen": null,
@@ -71,8 +71,8 @@
   },
   "8.3": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "1ff2721c33fd"
+    "changed": "2026-11-16",
+    "hash": "3e1b9432e890"
   },
   "8.4": {
     "first_seen": null,
@@ -96,8 +96,8 @@
   },
   "9.4": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "9a13addcfc82"
+    "changed": "2026-11-16",
+    "hash": "f434082c1351"
   },
   "9.5": {
     "first_seen": null,
@@ -359,9 +359,49 @@
     "changed": null,
     "hash": "ca2e7bd3b846"
   },
-  "25": {
-    "first_seen": "2026-11-15",
+  "8.3.2": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "1019a1fbd9c3"
+  },
+  "8.5": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "3209b43c3a31"
+  },
+  "8.6": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "d3ac8babc5c5"
+  },
+  "25.1": {
+    "first_seen": "2026-11-16",
     "changed": null,
     "hash": "47e7dd8fc600"
+  },
+  "26.1": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "2d15e6b58ace"
+  },
+  "26.2": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "838fd5aeba9d"
+  },
+  "26.3": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "1a095be77028"
+  },
+  "26.4": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "c44fc4577abe"
+  },
+  "misc-one-tap-open": {
+    "first_seen": "2026-11-16",
+    "changed": null,
+    "hash": "9d1b3787e311"
   }
 }

@@ -40,7 +40,7 @@
     "label": "7.4 (Local) Single tap toggle to move items from and to crockpot/storage boxes (4/6)"
   },
   {
-    "text": "local IB,Im,P=require([[widgets/imagebutton]]),require([[widgets/image]]),ThePlayer local c=P.HUD.controls local _,H=TheSim:GetScreenSize() local k=c:GetScale().x local w=c:GetWorldPosition() local q=c.inv.drop_mode_button:GetWorldPosition() local S=P._rot and P._rot[1] and P._rot[1]:GetScale().x or 1.25 for _,v in ipairs(P._mw or {}) do v:Kill() end P._mw={} local function mk(l,m,off) local b=c:AddChild(IB([[images/hud.xml]],[[equip_slot.tex]],[[equip_slot.tex]],[[equip_slot.tex]])) b:SetPosition((q.x-off*H-w.x)/k,(q.y-w.y)/k) b:SetScale(S) b.image:SetTint(1,1,1,.5) b.ic=b:AddChild(Im(GetInventoryItemAtlas(l),l)) b.ic:ScaleToSize(52,52) b.m=m b:SetOnClick(function() MW_MODE=(MW_MODE~=m) and m or false P._sn=false MW_Tint() end) table.insert(P._mw,b) end mk([[treasurechest.tex]],[[bottom]],.13) mk([[cookpot.tex]],[[top]],.24) --M",
+    "text": "local IB,Im,P=require([[widgets/imagebutton]]),require([[widgets/image]]),ThePlayer local c=P.HUD.controls local W,H=TheSim:GetScreenSize() local k=c:GetScale().x local w=c:GetWorldPosition() local S=P._rot and P._rot[1] and P._rot[1]:GetScale().x or 1.25 for _,v in ipairs(P._mw or {}) do v:Kill() end P._mw={} local function mk(l,m,X,Y) local b=c:AddChild(IB([[images/hud.xml]],[[equip_slot.tex]],[[equip_slot.tex]],[[equip_slot.tex]])) b:SetPosition((X-w.x)/k,(Y-w.y)/k) b:SetScale(S) b.image:SetTint(1,1,1,.5) b.ic=b:AddChild(Im(GetInventoryItemAtlas(l),l)) b.ic:ScaleToSize(52,52) b.m=m b:SetOnClick(function() MW_MODE=(MW_MODE~=m) and m or false P._sn=false MW_Tint() end) table.insert(P._mw,b) end mk([[treasurechest.tex]],[[bottom]],0.5098*H,0.2189*H) mk([[cookpot.tex]],[[top]],0.4061*H,0.2207*H) --M",
     "label": "7.5 (Local) Single tap toggle to move items from and to crockpot/storage boxes (5/6)"
   },
   {
@@ -56,8 +56,12 @@
     "label": "8.2 (Local) Runs all commands saved in the persistent string (#5 is no longer needed)"
   },
   {
-    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old) local L,K={},{} local function add(l) local k=l:sub(2) if K[k] then L[K[k]]=l else L[#L+1]=l K[k]=#L end end if ok then for l in old:gmatch(([[[^]]..string.char(10)..[[]+]])) do add(l) end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory()) do local s=v.str if s:find([[--M]],1,true) and not s:find([[--RUN]],1,true) and not s:find([[mw_macro]],1,true) and not s:find([[ConsoleScreenSettings]],1,true) then add((v.remote and [[R]] or [[L]])..s) end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false) Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]]) end) --RUN",
+    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old)local L,K={},{}local function add(l)local k=l:sub(2)if K[k]then L[K[k]]=l else L[#L+1]=l K[k]=#L end end if ok then for l in old:gmatch(([[[^]]..string.char(10)..[[]+]]))do add(l)end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory())do local s=v.str if s:find([[--M]],1,true)and not s:find([[--RUN]],1,true)and not s:find([[mw_macro]],1,true)and not s:find([[ConsoleScreenSettings]],1,true)then add((v.remote and [[R]]or [[L]])..s)end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false)Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]])end) --RUN",
     "label": "8.3 (Local) Adds new commands to save in the persistent string"
+  },
+  {
+    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old) local L,K={},{} local function add(l) local k=l:sub(2) if K[k] then L[K[k]]=l else L[#L+1]=l K[k]=#L end end if ok then for l in old:gmatch(\"[^\"..string.char(10)..\"]+\") do add(l) end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory()) do local s=v.str if s:find([[--M]],1,true) and not s:find([[--RUN]],1,true) and not s:find([[mw_macro]],1,true) and not s:find([[ConsoleScreenSettings]],1,true) then add((v.remote and [[R]] or [[L]])..s) end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false) Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]]) ConsoleScreenSettings:Reset() end)--RUN",
+    "label": "8.3.2 (local) just 8.3 but with console history clear right after"
   },
   {
     "text": "local L,K={},{} local function add(l) local k=l:sub(2,45) if not K[k] then L[#L+1]=l K[k]=true end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory()) do if v.str:find([[--M]],1,true) and not v.str:find([[--RUN]],1,true) then add((v.remote and [[R]] or [[L]])..v.str) end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false) Networking_SystemMessage([[MW macro overwritten! Total lines: ]]..#L) --RUN",
@@ -76,7 +80,7 @@
     "label": "9.3 (Local) Beefalo Badge (3/5)"
   },
   {
-    "text": "local P=ThePlayer local c=P.HUD.controls if P._mb then P._mb:Kill() end local st=c.status local hr=st.heart local mb=require([[widgets/badge]])(nil,P,{.08,.68,.08,1},[[status_health]],nil,nil,true) st:AddChild(mb) P._mb=mb local p=hr:GetPosition() mb:SetPosition(p.x,p.y) local hw=hr:GetWorldPosition() local y0=mb:GetWorldPosition().y mb:SetPosition(p.x,p.y+100) local s=(mb:GetWorldPosition().y-y0)/100 local W,H=TheSim:GetScreenSize() mb:SetPosition(p.x+(W-0.2852*H-hw.x)/s,p.y+(H-0.2093*H-hw.y)/s) mb:Hide() local F=rawget(_G,[[MW_Fade]]) if F then F(mb) end --M",
+    "text": "local P=ThePlayer local c=P.HUD.controls if P._mb then P._mb:Kill() end local st=c.status local hr=st.heart local mb=require([[widgets/badge]])(nil,P,{.08,.68,.08,1},[[status_health]],nil,nil,true) st:AddChild(mb) P._mb=mb local p=hr:GetPosition() mb:SetPosition(p.x,p.y) local hw=mb:GetWorldPosition() local y0=hw.y mb:SetPosition(p.x,p.y+100) local s=(mb:GetWorldPosition().y-y0)/100 local W,H=TheSim:GetScreenSize() local function R(d,l,X,Y) mb:SetPosition(p.x+(X-hw.x)/s,p.y+(Y-hw.y)/s) end R(1,[[HEALTH]],W-0.2335*H,H-0.1726*H) mb:Hide() local F=rawget(_G,[[MW_Fade]]) if F then F(mb) end--M",
     "label": "9.4 (Local) Beefalo Badge (4/5)"
   },
   {
@@ -184,6 +188,14 @@
     "label": "17.5.2 (Remote) HP Bars (Optional replacement for 17.5.1 to limit hp bars to mobs with 1400MaxHP or higher)"
   },
   {
+    "text": "local A,B,F=1,9999,[[]] TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end local P=[[[^]]..string.char(10)..[[]+]] local Q,n={},0 for l in s:gmatch(P) do n=n+1 if n>=A and n<=B and (F==[[]] or l:find(F,1,true)) then local b,d=l:sub(2),{} for k in b:gmatch([[function%s+([%w_%.:]+)]]) do d[#d+1]=k end for k in b:gmatch([[([%w_%.]+)%s*=%s*function]]) do d[#d+1]=k end Q[#Q+1]=[[#]]..n..[[ ]]..l:sub(1,1)..[[ ]]..table.concat(d,[[,]],1,math.min(#d,3))..[[ | ]]..(#b>66 and b:sub(1,40)..[[ .. ]]..b:sub(-24) or b)..[[ (]]..#l..[[)]] end end Networking_SystemMessage([[mw_macro: ]]..n..[[ lines, showing ]]..#Q) local i=0 local function go() i=i+1 if Q[i] then ChatHistory:AddToHistory(ChatTypes.SystemMessage,nil,nil,nil,Q[i],{.7,.85,1,1},nil,nil,true) if ThePlayer then ThePlayer:DoTaskInTime(.3,go) else go() end end end go() end) --RUN",
+    "label": "8.5 (Local) lists all commands in the macro to chat history"
+  },
+  {
+    "text": "local D={5,[[12-14]]} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
+    "label": "8.6 (local) delete commands in persistent string"
+  },
+  {
     "text": "local H=ChatHistory H.OrigAdd=H.OrigAdd or H.AddToHistory H.MWH=H.MWH or {} H.AddToHistory=function(s,t,u,n,nm,msg,...) if type(msg)==[[string]] then for _,f in pairs(H.MWH) do local ok,r=pcall(f,t,msg) if ok and r then return end end end return H.OrigAdd(s,t,u,n,nm,msg,...) end H.MWH.hide=function(t,m) local a=m:sub(1,4) if a==[[HPB|]] or a==[[MHP:]] or m==[[mb remote ok]] then return true end end --M",
     "label": "18 (Local) For clients so they don't get spammed by beefalo hp badge or hp bar announcers"
   },
@@ -273,22 +285,42 @@
   },
   {
     "text": "local A=ACTIONS.ATTACK A._mw=A._mw or A.fn A.fn=function(act) local t,d=act.target,act.doer local I=d and d.components.inventory if t and I and I:FindItem(function(i) return i.GetBeefalo and i:GetBeefalo()==t end) then return false end return A._mw(act) end --M",
-    "label": "25 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory"
+    "label": "25.1 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory"
   },
   {
-    "text": "Hey! I need help adjusting the coordinate values for a custom Don't Starve Together mobile console command. Because of my device's resolution and HUD scale, the virtual buttons/UI elements created by this script aren't aligning correctly with my screen. Here is my current one-liner command: [PASTE YOUR FULL COMMAND STRING HERE] I’ve attached a screenshot of my DST mobile game in-case you need to reference the layout. Can you calculate the math for the new positions/sizes and rewrite this into an updated, single-line command string that I can copy and paste directly into the game console?",
-    "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update"
+    "text": "function MW_F(o,d) if o.can_scroll_fn then return o end if d<4 then for c in pairs(o.children or {}) do local r=MW_F(c,d+1) if r then return r end end end end function MW_R(L,d) local lo,hi=0,1 while hi<4096 and L.can_scroll_fn(d*hi,d*(hi-1)) do lo=hi hi=hi*2 end while hi-lo>1 do local m=math.floor((lo+hi)/2) if L.can_scroll_fn(d*m,d*(m-1)) then lo=m else hi=m end end return lo end --M",
+    "label": "26.1 (Local) Chat screen+ (1/4)"
+  },
+  {
+    "text": "function MW_Upd(s,dt) local G=s.MW_g if not G then return end s.MW_L=s.MW_L or (s.networkchatqueue and MW_F(s.networkchatqueue,0)) local L=s.MW_L if not L then return end s.MW_c=(s.MW_c or 0)-(dt or 0) if s.MW_c<=0 then s.MW_c=.3 s.MW_lo=-MW_R(L,-1) s.MW_hi=MW_R(L,1) end local lo,hi=s.MW_lo,s.MW_hi local p=TheInput:GetScreenPosition() local vx,vy=(p.x-G.W/2)/G.k,(p.y-G.H/2)/G.k local tp=G.t:GetPosition() local top,bot=tp.y+G.L/2,tp.y-G.L/2 if TheInput:IsControlPressed(CONTROL_PRIMARY) then if not s.MW_d and math.abs(vx-tp.x)<40 and vy>bot-20 and vy<top+20 then s.MW_d=true end else s.MW_d=nil end local sp=hi-lo if s.MW_d and sp>0 then local f=math.max(0,math.min(1,(vy-bot)/(top-bot))) L:Scroll(math.floor(hi-f*sp+.5)-L.target_scroll_pos,true) end local f=sp>0 and (hi-L.current_scroll_pos)/sp or 0 G.h:SetPosition(tp.x,bot+math.max(0,math.min(1,f))*(top-bot)) end --M",
+    "label": "26.2 (Local) Chat screen+ (2/4)"
+  },
+  {
+    "text": "function MW_Bar(s) local Wd,Im,IB=require[[widgets/widget]],require[[widgets/image]],require[[widgets/imagebutton]] local g=s:AddChild(Wd([[mw]])) g:SetScaleMode(SCALEMODE_PROPORTIONAL) g:SetHAnchor(ANCHOR_MIDDLE) g:SetVAnchor(ANCHOR_MIDDLE) local W,H=TheSim:GetScreenSize() local w={x=W/2,y=H/2} local k=H/RESOLUTION_Y local b=g:AddChild(IB([[images/global_redux.xml]],[[close.tex]],[[close.tex]],[[close.tex]])) b:SetScale(.55) b:SetPosition((W-0.06*H-w.x)/k,(H-0.08*H-w.y)/k) b:SetOnClick(function() s.MW_stay=false s:Close() end) local t=g:AddChild(Im([[images/global.xml]],[[square.tex]])) t:SetClickable(false) t:SetTint(1,1,1,.3) t:ScaleToSize(12,.4*H/k) t:SetPosition((W-0.04*H-w.x)/k,(H-0.5*H-w.y)/k) local h=g:AddChild(Im([[images/global.xml]],[[square.tex]])) h:SetClickable(false) h:SetTint(.9,.75,.3,.9) h:ScaleToSize(22,64) s.MW_g={t=t,h=h,k=k,W=W,H=H,L=.4*H/k} end --M",
+    "label": "26.3 (Local) Chat screen+  (3/4)"
+  },
+  {
+    "text": "local S=require[[screens/chatinputscreen]] S.MWK=S.MWK or S.Close S.Close=function(s,...) if s.MW_stay then return end return S.MWK(s,...) end S.MWC=S.MWC or S._ctor S._ctor=function(s,...) S.MWC(s,...) s.MW_stay=true MW_Bar(s) end S.MWU=S.MWU or S.OnUpdate S.OnUpdate=function(s,dt,...) S.MWU(s,dt,...) pcall(MW_Upd,s,dt) end --M",
+    "label": "26.4 (Local) Chat screen+ (4/4)"
   },
   {
     "text": "local P=ThePlayer local pc=P.components.playercontroller local lo=P.components.locomotor if pc._po then pc.DoAction=nil pc._po=nil if lo then lo.PushAction=nil end end pc._wb=function(a) if a and a.action==ACTIONS.PICKUP and a.target and a.target.prefab==[[winona_storage_robot]] and P.prefab~=[[winona]] then pcall(function() local t=STRINGS.CHARACTERS local c=t[P.prefab:upper()] or t.GENERIC P.components.talker:Say(c.ACTIONFAIL_GENERIC or t.GENERIC.ACTIONFAIL_GENERIC or [[I can't do that]],2) end) return true end end if not pc._wi then pc._wi=1 if lo then local L=lo.PushAction lo.PushAction=function(s,a,...) if pc._wb(a) then return end return L(s,a,...) end end local D=pc.DoAction pc.DoAction=function(s,a,...) if pc._wb(a) then return end return D(s,a,...) end end --M",
     "label": "MiSC (Local) prevent other characters from picking up winbot"
   },
   {
-    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.hunger:Pause() p.components.sanity:SetRate(0)--RUN",
-    "label": "TESTSERVEr (Remote) godmode and free crafting"
-  },
-  {
     "text": "c_save()TheWorld:DoTaskInTime(2,function()c_announce([[Done saving!]])end)--RUN",
     "label": "MISC (remote) manually save | For people having disconnect freezing bug"
+  },
+  {
+    "text": "local IB=require[[widgets/imagebutton]] local CS=require[[screens/consolescreen_mobile]] local r=ThePlayer.HUD.controls local W,H=TheSim:GetScreenSize() local k=r:GetScale().x local w=r:GetWorldPosition() if r.MW_cb then r.MW_cb:Kill() end local b=r:AddChild(IB([[images/global.xml]],[[square.tex]],[[square.tex]],[[square.tex]])) r.MW_cb=b b:SetScale(.9) b.image:SetTint(1,1,1,.02) b:SetPosition((W-0.1073*H-w.x)/k,(H-0.0537*H-w.y)/k) b:SetOnClick(function() local a=TheFrontEnd:GetActiveScreen() if a and a.name==[[ConsoleScreen]] then return end TheFrontEnd:PushScreen(CS()) end) --M",
+    "label": "MISC (LOCAL) ONE TAP OPEN CONSOLE | requires manual position over day clock"
+  },
+  {
+    "text": "Hey! I need help adjusting the coordinate values for a custom Don't Starve Together mobile console command. Because of my device's resolution and HUD scale, the virtual buttons/UI elements created by this script aren't aligning correctly with my screen. Here is my current one-liner command: [PASTE YOUR FULL COMMAND STRING HERE] I’ve attached a screenshot of my DST mobile game in-case you need to reference the layout. Can you calculate the math for the new positions/sizes and rewrite this into an updated, single-line command string that I can copy and paste directly into the game console?",
+    "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update"
+  },
+  {
+    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.hunger:Pause() p.components.sanity:SetRate(0)--RUN",
+    "label": "TESTSERVEr (Remote) godmode and free crafting"
   }
 ]
