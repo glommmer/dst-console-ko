@@ -111,8 +111,8 @@
   },
   "10.2": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "7fd1e5101d5b"
+    "changed": "2026-11-18",
+    "hash": "43fb6b088d2d"
   },
   "10.3": {
     "first_seen": null,
@@ -276,8 +276,8 @@
   },
   "testserver-godmode-and-free": {
     "first_seen": null,
-    "changed": "2026-11-15",
-    "hash": "3256615a782a"
+    "changed": "2026-11-18",
+    "hash": "462f2e40b8d8"
   },
   "21.1": {
     "first_seen": "2026-11-11",
@@ -371,8 +371,8 @@
   },
   "8.6": {
     "first_seen": "2026-11-16",
-    "changed": null,
-    "hash": "d3ac8babc5c5"
+    "changed": "2026-11-18",
+    "hash": "26b424990bc9"
   },
   "25.1": {
     "first_seen": "2026-11-16",
@@ -403,5 +403,50 @@
     "first_seen": "2026-11-16",
     "changed": null,
     "hash": "9d1b3787e311"
+  },
+  "8.7.1": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "6749ef8c1b18"
+  },
+  "8.7.2": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "789b0424a089"
+  },
+  "8.7.3": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "d489f8e9138b"
+  },
+  "27.1": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "0699c598d2c0"
+  },
+  "27.2": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "3a768ba4572a"
+  },
+  "27.3": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "24605378f697"
+  },
+  "27.4": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "2cef4ae95574"
+  },
+  "28": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "916b02ddb181"
+  },
+  "29": {
+    "first_seen": "2026-11-18",
+    "changed": null,
+    "hash": "ea0ed3d40792"
   }
 }

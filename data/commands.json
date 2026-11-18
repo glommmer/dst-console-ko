@@ -281,10 +281,10 @@
     "label": "10.2 (local) Season and Moon Cycle Info (2/5)",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "function MW_Sync() local w=TheWorld and TheWorld.state if not w then return end local d=w.cycles+1 local p=w.moonphase local x=w.iswaxingmoon local a=MW_MA local i=a and (a[1]-1+d-a[2])%20+1 local ok=i and MW_Ph(i)==p and (x==nil or (i<=10)==x) if MW_MC then MW_ML=false MW_MA={MW_Fst(p,x) or MW_Fst(p),d,true} elseif not ok then if a and p==[[full]] then MW_ML=true MW_MA={11,d,true} else MW_ML=false local k=(w.cycles%20)+1 if MW_Ph(k)==p and (x==nil or (k<=10)==x) then MW_MA={k,d,false} else local e=p==[[new]] or p==[[full]] MW_MA={(MW_Fst(p,x) or MW_Fst(p))+(e and 0 or 1),d,e} end end end MW_MC=false end function MW_Chg(c) if c then MW_MC=true end if not MW_T then MW_T=TheWorld:DoTaskInTime(.3,function() MW_T=nil MW_Sync() end) end end --M",
-    "length": 749,
-    "original_length": 749,
-    "hash": "7fd1e5101d5b",
+    "text": "function MW_Sync() local w=TheWorld and TheWorld.state if not w then return end local d=w.cycles+1 local p=w.moonphase local x=w.iswaxingmoon local a=MW_MA local i=a and (a[1]-1+d-a[2])%20+1 local ok=i and MW_Ph(i)==p and (x==nil or (i<=10)==x) if MW_MC then MW_ML=false MW_MA={MW_Fst(p,x) or MW_Fst(p),d,true} elseif not ok then if a and p==[[full]] then MW_ML=true MW_MA={11,d,true} else MW_ML=false local k=(w.cycles%20)+1 if MW_Ph(k)==p and (x==nil or (k<=10)==x) then MW_MA={k,d,false} else local e=p==[[new]] or p==[[full]] MW_MA={(MW_Fst(p,x) or MW_Fst(p))+(e and 0 or 1),d,e} end end end MW_MC=false end function MW_Chg(c) if c then MW_MC=true end local W=TheWorld if not W.MW_T then W.MW_T=W:DoTaskInTime(.3,function() W.MW_T=nil MW_Sync() end) end end --M",
+    "length": 765,
+    "original_length": 765,
+    "hash": "43fb6b088d2d",
     "flags": []
   },
   {
@@ -578,18 +578,54 @@
   {
     "id": "8.6",
     "order": 48,
-    "label": "8.6 (local) delete commands in persistent string",
+    "label": "8.6 (local) delete commands in persistent string | change placeholder to number or number range ie 6 or 6-7",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local D={5,[[12-14]]} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
-    "length": 645,
-    "original_length": 645,
-    "hash": "d3ac8babc5c5",
+    "text": "local D={5,[[EnterNumberOrNumberRange]]} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
+    "length": 664,
+    "original_length": 664,
+    "hash": "26b424990bc9",
+    "flags": []
+  },
+  {
+    "id": "8.7.1",
+    "order": 49,
+    "label": "8.7.1 (local) persistent string mgmt | sig function (1/3)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "function MW_Sg(l,DEF) local b=l:sub(2) local k=l:sub(1,1)..(b:gsub([[SetPosition%s*%b()]],[[SetPosition()]])) if DEF then local d={} for n in b:gmatch([[function%s+([%w_%.:]+)]]) do d[#d+1]=n end for n in b:gmatch([[([%w_%.]+)%s*=%s*function]]) do d[#d+1]=n end if #d>0 then table.sort(d) k=l:sub(1,1)..table.concat(d,[[,]]) end end return k end --RUN",
+    "length": 351,
+    "original_length": 351,
+    "hash": "6749ef8c1b18",
+    "flags": []
+  },
+  {
+    "id": "8.7.2",
+    "order": 50,
+    "label": "8.7.2 (local) persistent string mgmt | cleaner (2/3)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "function MW_Cl(APPLY,DEF) TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end local P=[[[^]]..string.char(10)..[[]+]] local L,G,X,Q={},{},{},{} for l in s:gmatch(P) do L[#L+1]=l end for i,l in ipairs(L) do local k=MW_Sg(l,DEF) if G[k] then X[G[k]]=i Q[#Q+1]=[[#]]..G[k]..[[ older than #]]..i end G[k]=i end Networking_SystemMessage([[mw_macro: ]]..#L..[[ lines, ]]..#Q..[[ older duplicate(s)]]..(APPLY and [[ REMOVED]] or [[ (preview)]])) for _,m in ipairs(Q) do ChatHistory:AddToHistory(ChatTypes.SystemMessage,nil,nil,nil,m,{.7,.85,1,1},nil,nil,true) end if APPLY and #Q>0 then TheSim:SetPersistentString([[mw_macro_bak]],s,false) local O={} for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) end end) end --RUN",
+    "length": 838,
+    "original_length": 838,
+    "hash": "789b0424a089",
+    "flags": []
+  },
+  {
+    "id": "8.7.3",
+    "order": 51,
+    "label": "8.7.3 (local) persistent string mgmt | Run it. First paste the preview, check the numbers against your reader output, then change the first argument to true (3/3), broader search (false, true)",
+    "mode": "LOCAL",
+    "kind": "text",
+    "text": "MW_Cl(false,false) --RUN",
+    "length": 24,
+    "original_length": 24,
+    "hash": "d489f8e9138b",
     "flags": []
   },
   {
     "id": "18",
-    "order": 49,
+    "order": 52,
     "label": "18 (Local) For clients so they don't get spammed by beefalo hp badge or hp bar announcers",
     "mode": "LOCAL",
     "kind": "code",
@@ -601,7 +637,7 @@
   },
   {
     "id": "19.1",
-    "order": 50,
+    "order": 53,
     "label": "19.1 (Local) Lock Mode Tap to target (cycle button removed)",
     "mode": "LOCAL",
     "kind": "code",
@@ -613,7 +649,7 @@
   },
   {
     "id": "19.2",
-    "order": 51,
+    "order": 54,
     "label": "19.2 (Local) Lock Mode Tap to target (optional) target pointer (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -625,7 +661,7 @@
   },
   {
     "id": "19.3",
-    "order": 52,
+    "order": 55,
     "label": "19.3 (Local) Lock Mode Tap to target (optional) target pointer (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -637,7 +673,7 @@
   },
   {
     "id": "20.1",
-    "order": 53,
+    "order": 56,
     "label": "20.1 (Local) Minimap (1/3) You need to reposition it with my btn placer | The stick will not work until 20.2 is ran after",
     "mode": "LOCAL",
     "kind": "code",
@@ -649,7 +685,7 @@
   },
   {
     "id": "20.1.2",
-    "order": 54,
+    "order": 57,
     "label": "20.1.2 (Local) Minimap circle | Replaces 20.1",
     "mode": "LOCAL",
     "kind": "code",
@@ -661,7 +697,7 @@
   },
   {
     "id": "20.2",
-    "order": 55,
+    "order": 58,
     "label": "20.2 (Local) Minimap (2/3) to zoom, open the map and zoom. note that the last position before you close the map will be the center of the minimap",
     "mode": "LOCAL",
     "kind": "code",
@@ -673,7 +709,7 @@
   },
   {
     "id": "20.3",
-    "order": 56,
+    "order": 59,
     "label": "20.3 (Local) Minimap Optional fade and remove btn bg",
     "mode": "LOCAL",
     "kind": "code",
@@ -685,7 +721,7 @@
   },
   {
     "id": "20.4",
-    "order": 57,
+    "order": 60,
     "label": "20.4 (local) Optional toggle to hide/show minimap(tap the sanity/brain badge to toggle)",
     "mode": "LOCAL",
     "kind": "code",
@@ -697,7 +733,7 @@
   },
   {
     "id": "20.5",
-    "order": 58,
+    "order": 61,
     "label": "20.5 (local) Minimap optional opaque",
     "mode": "LOCAL",
     "kind": "code",
@@ -709,7 +745,7 @@
   },
   {
     "id": "21.1",
-    "order": 59,
+    "order": 62,
     "label": "21.1 (Remote) Beefalo auto hitch and unhitching with beef bell warning | autorun dependency (1/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -721,7 +757,7 @@
   },
   {
     "id": "21.2",
-    "order": 60,
+    "order": 63,
     "label": "21.2 (Remote) BEEFALo AUTO HITCHING (2/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -733,7 +769,7 @@
   },
   {
     "id": "21.3",
-    "order": 61,
+    "order": 64,
     "label": "21.3 (Remote) BEEFALo AUTO HITCHING (3/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -745,7 +781,7 @@
   },
   {
     "id": "21.4",
-    "order": 62,
+    "order": 65,
     "label": "21.4 (Local) BEEFALO AUTO HITCHING (4/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -757,7 +793,7 @@
   },
   {
     "id": "21.5",
-    "order": 63,
+    "order": 66,
     "label": "21.5 (Local) Beefalo auto hitching (5/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -769,7 +805,7 @@
   },
   {
     "id": "22.1",
-    "order": 64,
+    "order": 67,
     "label": "22.1 (Local) Brightshade spawn block rangefinder (1/3) only visible during placing/planting stuff",
     "mode": "LOCAL",
     "kind": "code",
@@ -781,7 +817,7 @@
   },
   {
     "id": "22.2",
-    "order": 65,
+    "order": 68,
     "label": "22.2 (local) Brightshade spawn block rangefinder (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -793,7 +829,7 @@
   },
   {
     "id": "22.3",
-    "order": 66,
+    "order": 69,
     "label": "22.3 (local) Brightshade spawn block rangefinder (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -805,7 +841,7 @@
   },
   {
     "id": "23.1",
-    "order": 67,
+    "order": 70,
     "label": "23.1 (Local)  Alignment toggle (1/2)",
     "mode": "LOCAL",
     "kind": "code",
@@ -817,7 +853,7 @@
   },
   {
     "id": "23.2",
-    "order": 68,
+    "order": 71,
     "label": "23.2  (Local)  Alignment toggle (2/2)",
     "mode": "LOCAL",
     "kind": "code",
@@ -829,7 +865,7 @@
   },
   {
     "id": "24.1",
-    "order": 69,
+    "order": 72,
     "label": "24.1 (Remote) stack and group up item stacks on the ground (1/2)",
     "mode": "REMOTE",
     "kind": "code",
@@ -841,7 +877,7 @@
   },
   {
     "id": "24.2",
-    "order": 70,
+    "order": 73,
     "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)",
     "mode": "REMOTE",
     "kind": "code",
@@ -853,7 +889,7 @@
   },
   {
     "id": "25.1",
-    "order": 71,
+    "order": 74,
     "label": "25.1 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory",
     "mode": "REMOTE",
     "kind": "code",
@@ -865,7 +901,7 @@
   },
   {
     "id": "26.1",
-    "order": 72,
+    "order": 75,
     "label": "26.1 (Local) Chat screen+ (1/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -877,7 +913,7 @@
   },
   {
     "id": "26.2",
-    "order": 73,
+    "order": 76,
     "label": "26.2 (Local) Chat screen+ (2/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -889,7 +925,7 @@
   },
   {
     "id": "26.3",
-    "order": 74,
+    "order": 77,
     "label": "26.3 (Local) Chat screen+  (3/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -901,7 +937,7 @@
   },
   {
     "id": "26.4",
-    "order": 75,
+    "order": 78,
     "label": "26.4 (Local) Chat screen+ (4/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -912,8 +948,80 @@
     "flags": []
   },
   {
+    "id": "27.1",
+    "order": 79,
+    "label": "27.1 (local) Fig tree plant spacing helper (1/4)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local C=P.HUD.controls if C.bs then C.bs:Kill() end local Wd,Im=require[[widgets/widget]],require[[widgets/image]] local B=C:AddChild(Wd([[bs]])) C.bs=B B:MoveToBack() B.D={} B.Q={} for i=1,200 do local d=Im([[images/global.xml]],[[square.tex]]) B:AddChild(d) d:ScaleToSize(4,4) d:Hide() B.D[i]=d end --M",
+    "length": 322,
+    "original_length": 322,
+    "hash": "0699c598d2c0",
+    "flags": []
+  },
+  {
+    "id": "27.2",
+    "order": 80,
+    "label": "27.2 (local) Fig tree plant spacing helper (2/4)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local B=P.HUD.controls.bs local R,N,MAX=2,48,15 B.F=function() local x,_,z=P.Transform:GetWorldPosition() local L={} for _,e in ipairs(TheSim:FindEntities(x,0,z,MAX)) do local f=e.prefab or [[]] if f==[[oceantreenut]] or f==[[underwater_salvageable]] or f==[[oceantree]] or f==[[winch]] then local a,_,b=e.Transform:GetWorldPosition() if(a-x)*(a-x)+(b-z)*(b-z)<=MAX*MAX then L[#L+1]={a,b} end end end local Q={} for i,c in ipairs(L) do for j=0,N-1 do local t=j*6.2832/N local px,pz=c[1]+R*math.cos(t),c[2]+R*math.sin(t) local ok2=#Q<#B.D for m,o in ipairs(L) do if m~=i and(px-o[1])^2+(pz-o[2])^2<R*R then ok2=false break end end if ok2 and(px-x)*(px-x)+(pz-z)*(pz-z)<=MAX*MAX then Q[#Q+1]={px,pz} end end end B.Q=Q end --M",
+    "length": 741,
+    "original_length": 739,
+    "hash": "3a768ba4572a",
+    "flags": []
+  },
+  {
+    "id": "27.3",
+    "order": 81,
+    "label": "27.3 (local) Fig tree plant spacing helper (3/4) toggled Off by default",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local C=P.HUD.controls local B=C.bs local SW,SH=TheSim:GetScreenSize() B.on=false B.t=0 B.OnUpdate=function(s,dt) local D=B.D if not B.on then for i=1,#D do D[i]:Hide() end return end B.t=B.t-dt if B.t<=0 then B.t=.5 if B.F then B.F() end end local wp=C:GetWorldPosition() local sc=C:GetScale().x local Q=B.Q or{} for i=1,#D do D[i]:Hide() end for i=1,#Q do local q,d=Q[i],D[i] if not d then break end local a,u=TheSim:GetScreenPos(q[1],0,q[2]) if a and u and a>-40 and u>-40 and a<SW+40 and u<SH+40 then d:SetPosition((a-wp.x)/sc,(u-wp.y)/sc) d:SetTint(1,.3,.6,.8) d:Show() end end end --M",
+    "length": 608,
+    "original_length": 608,
+    "hash": "24605378f697",
+    "flags": []
+  },
+  {
+    "id": "27.4",
+    "order": 82,
+    "label": "27.4 (local) Fig tree plant spacing helper (4/4) tap the button in chatscreen to toggle it on or off",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local B=P.HUD.controls.bs if not B then return end local S=require[[screens/chatinputscreen]] local IB=require[[widgets/imagebutton]] S.MWB=S.MWB or S._ctor S._ctor=function(s,...) S.MWB(s,...) local r=s.root or s local W,H=TheSim:GetScreenSize() local k=r:GetScale().x local w=r:GetWorldPosition() if s.MW_bb then s.MW_bb:Kill() end local b=r:AddChild(IB([[images/hud.xml]],[[equip_slot.tex]],[[equip_slot.tex]],[[equip_slot.tex]])) s.MW_bb=b b:SetScale(.9) b.image:SetTint(1,1,1,.35) b:SetPosition((0.3657*H-w.x)/k,(0.2722*H-w.y)/k) b:SetOnClick(function() B.on=not B.on if B.on then if not B.updating then B:StartUpdating() end B.t=0 if B.F then B.F() end b.image:SetTint(.4,1,.5,.8) Networking_SystemMessage([[bs on]]) else B.Q={} for i=1,#B.D do B.D[i]:Hide() end b.image:SetTint(1,1,1,.35) Networking_SystemMessage([[bs off]]) end end) end --M",
+    "length": 867,
+    "original_length": 867,
+    "hash": "2cef4ae95574",
+    "flags": []
+  },
+  {
+    "id": "28",
+    "order": 83,
+    "label": "28 (local) remove Insanity visuals and probably all nightvision tints(only when low or no sanity)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local H=ThePlayer.HUD for _,n in ipairs{[[insanityoverlay]],[[insanity_overlay]],[[vig]],[[mindover]]} do local w=H[n] or (H.controls and H.controls[n]) if w then w.Show=function() end w:Hide() end end --M",
+    "length": 205,
+    "original_length": 197,
+    "hash": "916b02ddb181",
+    "flags": []
+  },
+  {
+    "id": "29",
+    "order": 84,
+    "label": "29 (local) remove moggles night tint",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local PP=PostProcessor local m=getmetatable(PP).__index local function z() pcall(function() if m.SetColourCubeLerp then m.SetColourCubeLerp(PP,0,0) end if m.SetOverlayBlend then m.SetOverlayBlend(PP,0) end end) end for _,n in ipairs{[[SetColourCubeLerp]],[[SetColourCubeData]],[[SetOverlayBlend]]} do if m[n] then m[n]=function()end end end z() if P and not P._mogz then P._mogz=P:DoPeriodicTask(0,z) end --M",
+    "length": 426,
+    "original_length": 426,
+    "hash": "ea0ed3d40792",
+    "flags": []
+  },
+  {
     "id": "misc-prevent-other-characters",
-    "order": 76,
+    "order": 85,
     "label": "MiSC (Local) prevent other characters from picking up winbot",
     "mode": "LOCAL",
     "kind": "code",
@@ -925,7 +1033,7 @@
   },
   {
     "id": "misc-manually-save-for",
-    "order": 77,
+    "order": 86,
     "label": "MISC (remote) manually save | For people having disconnect freezing bug",
     "mode": "REMOTE",
     "kind": "code",
@@ -937,7 +1045,7 @@
   },
   {
     "id": "misc-one-tap-open",
-    "order": 78,
+    "order": 87,
     "label": "MISC (LOCAL) ONE TAP OPEN CONSOLE | requires manual position over day clock",
     "mode": "LOCAL",
     "kind": "code",
@@ -949,7 +1057,7 @@
   },
   {
     "id": "sample-prompt-to-update",
-    "order": 79,
+    "order": 88,
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
     "mode": "",
     "kind": "text",
@@ -961,14 +1069,14 @@
   },
   {
     "id": "testserver-godmode-and-free",
-    "order": 80,
+    "order": 89,
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "mode": "REMOTE",
     "kind": "code",
-    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.hunger:Pause() p.components.sanity:SetRate(0)--RUN",
-    "length": 178,
-    "original_length": 178,
-    "hash": "3256615a782a",
+    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.health:SetPercent(1) p.components.hunger:SetPercent(1) p.components.hunger:Pause(true) p.components.sanity:SetPercent(1) p.components.sanity:SetRate(0)\n--RUN",
+    "length": 285,
+    "original_length": 285,
+    "hash": "462f2e40b8d8",
     "flags": []
   }
 ]

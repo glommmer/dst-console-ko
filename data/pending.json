@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "10.2",
+    "label": "10.2 (local) Season and Moon Cycle Info (2/5)",
+    "reason": "changed"
+  },
+  {
+    "id": "8.6",
+    "label": "8.6 (local) delete commands in persistent string | change placeholder to number or number range ie 6 or 6-7",
+    "reason": "changed"
+  },
+  {
+    "id": "8.7.1",
+    "label": "8.7.1 (local) persistent string mgmt | sig function (1/3)",
+    "reason": "new"
+  },
+  {
+    "id": "8.7.2",
+    "label": "8.7.2 (local) persistent string mgmt | cleaner (2/3)",
+    "reason": "new"
+  },
+  {
+    "id": "8.7.3",
+    "label": "8.7.3 (local) persistent string mgmt | Run it. First paste the preview, check the numbers against your reader output, then change the first argument to true (3/3), broader search (false, true)",
+    "reason": "new"
+  },
+  {
+    "id": "27.1",
+    "label": "27.1 (local) Fig tree plant spacing helper (1/4)",
+    "reason": "new"
+  },
+  {
+    "id": "27.2",
+    "label": "27.2 (local) Fig tree plant spacing helper (2/4)",
+    "reason": "new"
+  },
+  {
+    "id": "27.3",
+    "label": "27.3 (local) Fig tree plant spacing helper (3/4) toggled Off by default",
+    "reason": "new"
+  },
+  {
+    "id": "27.4",
+    "label": "27.4 (local) Fig tree plant spacing helper (4/4) tap the button in chatscreen to toggle it on or off",
+    "reason": "new"
+  },
+  {
+    "id": "28",
+    "label": "28 (local) remove Insanity visuals and probably all nightvision tints(only when low or no sanity)",
+    "reason": "new"
+  },
+  {
+    "id": "29",
+    "label": "29 (local) remove moggles night tint",
+    "reason": "new"
+  },
+  {
+    "id": "testserver-godmode-and-free",
+    "label": "TESTSERVEr (Remote) godmode and free crafting",
+    "reason": "changed"
+  }
+]

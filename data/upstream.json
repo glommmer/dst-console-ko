@@ -92,7 +92,7 @@
     "label": "10.1 (local) Season and Moon Cycle Info (1/5)"
   },
   {
-    "text": "function MW_Sync() local w=TheWorld and TheWorld.state if not w then return end local d=w.cycles+1 local p=w.moonphase local x=w.iswaxingmoon local a=MW_MA local i=a and (a[1]-1+d-a[2])%20+1 local ok=i and MW_Ph(i)==p and (x==nil or (i<=10)==x) if MW_MC then MW_ML=false MW_MA={MW_Fst(p,x) or MW_Fst(p),d,true} elseif not ok then if a and p==[[full]] then MW_ML=true MW_MA={11,d,true} else MW_ML=false local k=(w.cycles%20)+1 if MW_Ph(k)==p and (x==nil or (k<=10)==x) then MW_MA={k,d,false} else local e=p==[[new]] or p==[[full]] MW_MA={(MW_Fst(p,x) or MW_Fst(p))+(e and 0 or 1),d,e} end end end MW_MC=false end function MW_Chg(c) if c then MW_MC=true end if not MW_T then MW_T=TheWorld:DoTaskInTime(.3,function() MW_T=nil MW_Sync() end) end end --M",
+    "text": "function MW_Sync() local w=TheWorld and TheWorld.state if not w then return end local d=w.cycles+1 local p=w.moonphase local x=w.iswaxingmoon local a=MW_MA local i=a and (a[1]-1+d-a[2])%20+1 local ok=i and MW_Ph(i)==p and (x==nil or (i<=10)==x) if MW_MC then MW_ML=false MW_MA={MW_Fst(p,x) or MW_Fst(p),d,true} elseif not ok then if a and p==[[full]] then MW_ML=true MW_MA={11,d,true} else MW_ML=false local k=(w.cycles%20)+1 if MW_Ph(k)==p and (x==nil or (k<=10)==x) then MW_MA={k,d,false} else local e=p==[[new]] or p==[[full]] MW_MA={(MW_Fst(p,x) or MW_Fst(p))+(e and 0 or 1),d,e} end end end MW_MC=false end function MW_Chg(c) if c then MW_MC=true end local W=TheWorld if not W.MW_T then W.MW_T=W:DoTaskInTime(.3,function() W.MW_T=nil MW_Sync() end) end end --M",
     "label": "10.2 (local) Season and Moon Cycle Info (2/5)"
   },
   {
@@ -192,8 +192,20 @@
     "label": "8.5 (Local) lists all commands in the macro to chat history"
   },
   {
-    "text": "local D={5,[[12-14]]} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
-    "label": "8.6 (local) delete commands in persistent string"
+    "text": "local D={5,[[EnterNumberOrNumberRange]]} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
+    "label": "8.6 (local) delete commands in persistent string | change placeholder to number or number range ie 6 or 6-7"
+  },
+  {
+    "text": "function MW_Sg(l,DEF) local b=l:sub(2) local k=l:sub(1,1)..(b:gsub([[SetPosition%s*%b()]],[[SetPosition()]])) if DEF then local d={} for n in b:gmatch([[function%s+([%w_%.:]+)]]) do d[#d+1]=n end for n in b:gmatch([[([%w_%.]+)%s*=%s*function]]) do d[#d+1]=n end if #d>0 then table.sort(d) k=l:sub(1,1)..table.concat(d,[[,]]) end end return k end --RUN",
+    "label": "8.7.1 (local) persistent string mgmt | sig function (1/3)"
+  },
+  {
+    "text": "function MW_Cl(APPLY,DEF) TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end local P=[[[^]]..string.char(10)..[[]+]] local L,G,X,Q={},{},{},{} for l in s:gmatch(P) do L[#L+1]=l end for i,l in ipairs(L) do local k=MW_Sg(l,DEF) if G[k] then X[G[k]]=i Q[#Q+1]=[[#]]..G[k]..[[ older than #]]..i end G[k]=i end Networking_SystemMessage([[mw_macro: ]]..#L..[[ lines, ]]..#Q..[[ older duplicate(s)]]..(APPLY and [[ REMOVED]] or [[ (preview)]])) for _,m in ipairs(Q) do ChatHistory:AddToHistory(ChatTypes.SystemMessage,nil,nil,nil,m,{.7,.85,1,1},nil,nil,true) end if APPLY and #Q>0 then TheSim:SetPersistentString([[mw_macro_bak]],s,false) local O={} for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) end end) end --RUN",
+    "label": "8.7.2 (local) persistent string mgmt | cleaner (2/3)"
+  },
+  {
+    "text": "MW_Cl(false,false) --RUN",
+    "label": "8.7.3 (local) persistent string mgmt | Run it. First paste the preview, check the numbers against your reader output, then change the first argument to true (3/3), broader search (false, true)"
   },
   {
     "text": "local H=ChatHistory H.OrigAdd=H.OrigAdd or H.AddToHistory H.MWH=H.MWH or {} H.AddToHistory=function(s,t,u,n,nm,msg,...) if type(msg)==[[string]] then for _,f in pairs(H.MWH) do local ok,r=pcall(f,t,msg) if ok and r then return end end end return H.OrigAdd(s,t,u,n,nm,msg,...) end H.MWH.hide=function(t,m) local a=m:sub(1,4) if a==[[HPB|]] or a==[[MHP:]] or m==[[mb remote ok]] then return true end end --M",
@@ -304,6 +316,30 @@
     "label": "26.4 (Local) Chat screen+ (4/4)"
   },
   {
+    "text": "local P=ThePlayer local C=P.HUD.controls if C.bs then C.bs:Kill() end local Wd,Im=require[[widgets/widget]],require[[widgets/image]] local B=C:AddChild(Wd([[bs]])) C.bs=B B:MoveToBack() B.D={} B.Q={} for i=1,200 do local d=Im([[images/global.xml]],[[square.tex]]) B:AddChild(d) d:ScaleToSize(4,4) d:Hide() B.D[i]=d end --M",
+    "label": "27.1 (local) Fig tree plant spacing helper (1/4)"
+  },
+  {
+    "text": "local P=ThePlayer local B=P.HUD.controls.bs local R,N,MAX=2,48,15 B.F=function() local x,_,z=P.Transform:GetWorldPosition() local L={} for _,e in ipairs(TheSim:FindEntities(x,0,z,MAX)) do local f=e.prefab or \"\" if f==[[oceantreenut]] or f==[[underwater_salvageable]] or f==[[oceantree]] or f==[[winch]] then local a,_,b=e.Transform:GetWorldPosition() if(a-x)*(a-x)+(b-z)*(b-z)<=MAX*MAX then L[#L+1]={a,b} end end end local Q={} for i,c in ipairs(L) do for j=0,N-1 do local t=j*6.2832/N local px,pz=c[1]+R*math.cos(t),c[2]+R*math.sin(t) local ok2=#Q<#B.D for m,o in ipairs(L) do if m~=i and(px-o[1])^2+(pz-o[2])^2<R*R then ok2=false break end end if ok2 and(px-x)*(px-x)+(pz-z)*(pz-z)<=MAX*MAX then Q[#Q+1]={px,pz} end end end B.Q=Q end --M",
+    "label": "27.2 (local) Fig tree plant spacing helper (2/4)"
+  },
+  {
+    "text": "local P=ThePlayer local C=P.HUD.controls local B=C.bs local SW,SH=TheSim:GetScreenSize() B.on=false B.t=0 B.OnUpdate=function(s,dt) local D=B.D if not B.on then for i=1,#D do D[i]:Hide() end return end B.t=B.t-dt if B.t<=0 then B.t=.5 if B.F then B.F() end end local wp=C:GetWorldPosition() local sc=C:GetScale().x local Q=B.Q or{} for i=1,#D do D[i]:Hide() end for i=1,#Q do local q,d=Q[i],D[i] if not d then break end local a,u=TheSim:GetScreenPos(q[1],0,q[2]) if a and u and a>-40 and u>-40 and a<SW+40 and u<SH+40 then d:SetPosition((a-wp.x)/sc,(u-wp.y)/sc) d:SetTint(1,.3,.6,.8) d:Show() end end end --M",
+    "label": "27.3 (local) Fig tree plant spacing helper (3/4) toggled Off by default"
+  },
+  {
+    "text": "local P=ThePlayer local B=P.HUD.controls.bs if not B then return end local S=require[[screens/chatinputscreen]] local IB=require[[widgets/imagebutton]] S.MWB=S.MWB or S._ctor S._ctor=function(s,...) S.MWB(s,...) local r=s.root or s local W,H=TheSim:GetScreenSize() local k=r:GetScale().x local w=r:GetWorldPosition() if s.MW_bb then s.MW_bb:Kill() end local b=r:AddChild(IB([[images/hud.xml]],[[equip_slot.tex]],[[equip_slot.tex]],[[equip_slot.tex]])) s.MW_bb=b b:SetScale(.9) b.image:SetTint(1,1,1,.35) b:SetPosition((0.3657*H-w.x)/k,(0.2722*H-w.y)/k) b:SetOnClick(function() B.on=not B.on if B.on then if not B.updating then B:StartUpdating() end B.t=0 if B.F then B.F() end b.image:SetTint(.4,1,.5,.8) Networking_SystemMessage([[bs on]]) else B.Q={} for i=1,#B.D do B.D[i]:Hide() end b.image:SetTint(1,1,1,.35) Networking_SystemMessage([[bs off]]) end end) end --M",
+    "label": "27.4 (local) Fig tree plant spacing helper (4/4) tap the button in chatscreen to toggle it on or off"
+  },
+  {
+    "text": "local H=ThePlayer.HUD for _,n in ipairs{\"insanityoverlay\",\"insanity_overlay\",\"vig\",\"mindover\"} do local w=H[n] or (H.controls and H.controls[n]) if w then w.Show=function() end w:Hide() end end --M",
+    "label": "28 (local) remove Insanity visuals and probably all nightvision tints(only when low or no sanity)"
+  },
+  {
+    "text": "local P=ThePlayer local PP=PostProcessor local m=getmetatable(PP).__index local function z() pcall(function() if m.SetColourCubeLerp then m.SetColourCubeLerp(PP,0,0) end if m.SetOverlayBlend then m.SetOverlayBlend(PP,0) end end) end for _,n in ipairs{[[SetColourCubeLerp]],[[SetColourCubeData]],[[SetOverlayBlend]]} do if m[n] then m[n]=function()end end end z() if P and not P._mogz then P._mogz=P:DoPeriodicTask(0,z) end --M",
+    "label": "29 (local) remove moggles night tint"
+  },
+  {
     "text": "local P=ThePlayer local pc=P.components.playercontroller local lo=P.components.locomotor if pc._po then pc.DoAction=nil pc._po=nil if lo then lo.PushAction=nil end end pc._wb=function(a) if a and a.action==ACTIONS.PICKUP and a.target and a.target.prefab==[[winona_storage_robot]] and P.prefab~=[[winona]] then pcall(function() local t=STRINGS.CHARACTERS local c=t[P.prefab:upper()] or t.GENERIC P.components.talker:Say(c.ACTIONFAIL_GENERIC or t.GENERIC.ACTIONFAIL_GENERIC or [[I can't do that]],2) end) return true end end if not pc._wi then pc._wi=1 if lo then local L=lo.PushAction lo.PushAction=function(s,a,...) if pc._wb(a) then return end return L(s,a,...) end end local D=pc.DoAction pc.DoAction=function(s,a,...) if pc._wb(a) then return end return D(s,a,...) end end --M",
     "label": "MiSC (Local) prevent other characters from picking up winbot"
   },
@@ -320,7 +356,7 @@
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update"
   },
   {
-    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.hunger:Pause() p.components.sanity:SetRate(0)--RUN",
+    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.health:SetPercent(1) p.components.hunger:SetPercent(1) p.components.hunger:Pause(true) p.components.sanity:SetPercent(1) p.components.sanity:SetRate(0)\n--RUN",
     "label": "TESTSERVEr (Remote) godmode and free crafting"
   }
 ]
