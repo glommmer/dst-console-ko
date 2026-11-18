@@ -340,6 +340,22 @@
     "label": "29 (local) remove moggles night tint"
   },
   {
+    "text": "local C=ThePlayer.HUD.controls if C.ab then C.ab:Kill() C.ab=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
+    "label": "30.1 (local) Wanda Ageless watch button (1/2)"
+  },
+  {
+    "text": "local P=ThePlayer if P._abt then P._abt:Cancel() end P._abt=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_heal]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
+    "label": "30.2 (local) Wanda Ageless watch button (2/2)"
+  },
+  {
+    "text": "local C=ThePlayer.HUD.controls if C.ab2 then C.ab2:Kill() C.ab2=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab2=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.324-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls2 or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
+    "label": "31.1 (local) Wanda Backstep Button (1/2)"
+  },
+  {
+    "text": "local P=ThePlayer if P._abt2 then P._abt2:Cancel() end P._abt2=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab2 if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_warp]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls2=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
+    "label": "31.2 (local) Wanda Backstep Button (2/2)"
+  },
+  {
     "text": "local P=ThePlayer local pc=P.components.playercontroller local lo=P.components.locomotor if pc._po then pc.DoAction=nil pc._po=nil if lo then lo.PushAction=nil end end pc._wb=function(a) if a and a.action==ACTIONS.PICKUP and a.target and a.target.prefab==[[winona_storage_robot]] and P.prefab~=[[winona]] then pcall(function() local t=STRINGS.CHARACTERS local c=t[P.prefab:upper()] or t.GENERIC P.components.talker:Say(c.ACTIONFAIL_GENERIC or t.GENERIC.ACTIONFAIL_GENERIC or [[I can't do that]],2) end) return true end end if not pc._wi then pc._wi=1 if lo then local L=lo.PushAction lo.PushAction=function(s,a,...) if pc._wb(a) then return end return L(s,a,...) end end local D=pc.DoAction pc.DoAction=function(s,a,...) if pc._wb(a) then return end return D(s,a,...) end end --M",
     "label": "MiSC (Local) prevent other characters from picking up winbot"
   },

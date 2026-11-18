@@ -1020,8 +1020,56 @@
     "flags": []
   },
   {
-    "id": "misc-prevent-other-characters",
+    "id": "30.1",
     "order": 85,
+    "label": "30.1 (local) Wanda Ageless watch button (1/2)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local C=ThePlayer.HUD.controls if C.ab then C.ab:Kill() C.ab=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
+    "length": 666,
+    "original_length": 666,
+    "hash": "dc77f9a06aad",
+    "flags": []
+  },
+  {
+    "id": "30.2",
+    "order": 86,
+    "label": "30.2 (local) Wanda Ageless watch button (2/2)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer if P._abt then P._abt:Cancel() end P._abt=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_heal]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
+    "length": 588,
+    "original_length": 588,
+    "hash": "d27f73146e33",
+    "flags": []
+  },
+  {
+    "id": "31.1",
+    "order": 87,
+    "label": "31.1 (local) Wanda Backstep Button (1/2)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local C=ThePlayer.HUD.controls if C.ab2 then C.ab2:Kill() C.ab2=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab2=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.324-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls2 or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
+    "length": 671,
+    "original_length": 671,
+    "hash": "559b08b7bb18",
+    "flags": []
+  },
+  {
+    "id": "31.2",
+    "order": 88,
+    "label": "31.2 (local) Wanda Backstep Button (2/2)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer if P._abt2 then P._abt2:Cancel() end P._abt2=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab2 if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_warp]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls2=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
+    "length": 593,
+    "original_length": 593,
+    "hash": "7c5900b9bac6",
+    "flags": []
+  },
+  {
+    "id": "misc-prevent-other-characters",
+    "order": 89,
     "label": "MiSC (Local) prevent other characters from picking up winbot",
     "mode": "LOCAL",
     "kind": "code",
@@ -1033,7 +1081,7 @@
   },
   {
     "id": "misc-manually-save-for",
-    "order": 86,
+    "order": 90,
     "label": "MISC (remote) manually save | For people having disconnect freezing bug",
     "mode": "REMOTE",
     "kind": "code",
@@ -1045,7 +1093,7 @@
   },
   {
     "id": "misc-one-tap-open",
-    "order": 87,
+    "order": 91,
     "label": "MISC (LOCAL) ONE TAP OPEN CONSOLE | requires manual position over day clock",
     "mode": "LOCAL",
     "kind": "code",
@@ -1057,7 +1105,7 @@
   },
   {
     "id": "sample-prompt-to-update",
-    "order": 88,
+    "order": 92,
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
     "mode": "",
     "kind": "text",
@@ -1069,7 +1117,7 @@
   },
   {
     "id": "testserver-godmode-and-free",
-    "order": 89,
+    "order": 93,
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "mode": "REMOTE",
     "kind": "code",
