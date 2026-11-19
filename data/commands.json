@@ -566,7 +566,7 @@
   {
     "id": "8.5",
     "order": 47,
-    "label": "8.5 (Local) lists all commands in the macro to chat history",
+    "label": "8.5 (Local) lists all commands in the macro to chat history | use 26 to view and scroll thru the list",
     "mode": "LOCAL",
     "kind": "code",
     "text": "local A,B,F=1,9999,[[]] TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end local P=[[[^]]..string.char(10)..[[]+]] local Q,n={},0 for l in s:gmatch(P) do n=n+1 if n>=A and n<=B and (F==[[]] or l:find(F,1,true)) then local b,d=l:sub(2),{} for k in b:gmatch([[function%s+([%w_%.:]+)]]) do d[#d+1]=k end for k in b:gmatch([[([%w_%.]+)%s*=%s*function]]) do d[#d+1]=k end Q[#Q+1]=[[#]]..n..[[ ]]..l:sub(1,1)..[[ ]]..table.concat(d,[[,]],1,math.min(#d,3))..[[ | ]]..(#b>66 and b:sub(1,40)..[[ .. ]]..b:sub(-24) or b)..[[ (]]..#l..[[)]] end end Networking_SystemMessage([[mw_macro: ]]..n..[[ lines, showing ]]..#Q) local i=0 local function go() i=i+1 if Q[i] then ChatHistory:AddToHistory(ChatTypes.SystemMessage,nil,nil,nil,Q[i],{.7,.85,1,1},nil,nil,true) if ThePlayer then ThePlayer:DoTaskInTime(.3,go) else go() end end end go() end) --RUN",
@@ -1149,6 +1149,78 @@
     "length": 764,
     "original_length": 764,
     "hash": "4b1b7fe29ffe",
+    "flags": []
+  },
+  {
+    "id": "33.1",
+    "order": 96,
+    "label": "33.1 (local) quick telepoof + manual aiming (1/6",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local C=ThePlayer.HUD.controls if C.bl then C.bl:Kill() C.bl=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.bl=b b.scale_on_focus=false local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.4/k) b:SetPosition((W*0.8479-w.x)/k,(H*0.3731-w.y)/k) b:Hide() --M",
+    "length": 384,
+    "original_length": 384,
+    "hash": "040fe780732e",
+    "flags": []
+  },
+  {
+    "id": "33.2",
+    "order": 97,
+    "label": "33.2 (local) quick telepoof + manual aiming (2/6)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer if P._blt then P._blt:Cancel() end P._blt=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.bl if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local f for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[orangestaff]] then f=v end end end if f then if not b.shown then local r=f.replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) b:Show() end elseif b.shown then b:Hide() end end) --M",
+    "length": 515,
+    "original_length": 515,
+    "hash": "681964e854d7",
+    "flags": []
+  },
+  {
+    "id": "33.3",
+    "order": 98,
+    "label": "33.3 (local) quick telepoof + manual aiming (3/6)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "MW_BG=rawget(_G,[[MW_BG]]) or 3 MW_BC=[=[local p=ThePlayer local I=p.components.inventory local s=I:GetEquippedItem(EQUIPSLOTS.HANDS) if not(s and s.prefab==[[orangestaff]]) then s=I:FindItem(function(i) return i.prefab==[[orangestaff]] end) end if s and s.components.blinkstaff then p:PushBufferedAction(BufferedAction(p,nil,ACTIONS.BLINK,s,Vector3(%.2f,0,%.2f))) else p.components.talker:Say([[No staff]],2) end]=] --M",
+    "length": 420,
+    "original_length": 420,
+    "hash": "e0ce5ca75f49",
+    "flags": []
+  },
+  {
+    "id": "33.4",
+    "order": 99,
+    "label": "33.4 (local) quick telepoof + manual aiming (4/6)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local C=P.HUD.controls if C.bm then C.bm:Kill() end if P._br and P._br:IsValid() then P._br:Remove() end local r=SpawnPrefab([[reticule]]) r:Hide() P._br=r local m=C:AddChild(require[[widgets/image]]([[images/global.xml]],[[square.tex]])) C.bm=m m:SetClickable(false) m:ScaleToSize(22,22) m:Hide() local A={} P._bA=A local W,H=TheSim:GetScreenSize() A.f=function(x,y) local g=MW_BG local u=math.max(0,math.min(W,A.px+(x-A.sx)*g)) local v=math.max(0,math.min(H,A.py+(y-A.sy)*g)) local a,_,c=TheSim:ProjectScreenPos(u,v) return a,c,u,v end --M",
+    "length": 559,
+    "original_length": 559,
+    "hash": "bcb168052085",
+    "flags": []
+  },
+  {
+    "id": "33.5",
+    "order": 100,
+    "label": "33.5 (local) quick telepoof + manual aiming (5/6)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local C=P.HUD.controls local A=P._bA local m=C.bm local H=select(2,TheSim:GetScreenSize()) for _,h in ipairs(rawget(_G,[[MW_BH]]) or {}) do h:Remove() end local function N(x,y) local b=C.bl local q=b and b.shown and b:GetWorldPosition() return q and (q.x-x)^2+(q.y-y)^2<(.06*H)^2 end MW_BH={TheInput:AddTouchStartHandler(function(i,x,y) if N(x,y) then A.i=i A.sx,A.sy=x,y local p=P:GetPosition() A.px,A.py=TheSim:GetScreenPos(p.x,0,p.z) end end),TheInput:AddTouchEndHandler(function(i,x,y) if A.i~=i then return end A.i=nil m:Hide() local r=P._br if r and r:IsValid() then r:Hide() end if N(x,y) then return end local a,c=A.f(x,y) if a then TheNet:SendRemoteExecute(string.format(MW_BC,a,c),a,c) end end)} --M",
+    "length": 727,
+    "original_length": 727,
+    "hash": "cee8a666d35b",
+    "flags": []
+  },
+  {
+    "id": "33.6",
+    "order": 101,
+    "label": "33.6 (local) quick telepoof + manual aiming (6/6)",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "local P=ThePlayer local C=P.HUD.controls local m=C.bm local A=P._bA local wp=C:GetWorldPosition() local sc=C:GetScale().x if P._bat then P._bat:Cancel() end P._bat=P:DoPeriodicTask(.03,function() if not A.i then return end local p=TheInput:GetScreenPosition() local a,c,u,v=A.f(p.x,p.y) if not a then return end local ok=TheWorld.Map:IsPassableAtPoint(a,0,c) local r=P._br if r and r:IsValid() then r.Transform:SetPosition(a,0,c) r.AnimState:SetMultColour(ok and 0 or 1,ok and 1 or 0,.2,1) r:Show() else m:SetPosition((u-wp.x)/sc,(v-wp.y)/sc) m:SetTint(ok and 0 or 1,ok and 1 or 0,.2,.9) m:Show() end end) --M",
+    "length": 609,
+    "original_length": 609,
+    "hash": "0afcf9b80e85",
     "flags": []
   }
 ]

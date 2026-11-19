@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "id": "33.1",
+    "label": "33.1 (local) quick telepoof + manual aiming (1/6",
+    "reason": "new"
+  },
+  {
+    "id": "33.2",
+    "label": "33.2 (local) quick telepoof + manual aiming (2/6)",
+    "reason": "new"
+  },
+  {
+    "id": "33.3",
+    "label": "33.3 (local) quick telepoof + manual aiming (3/6)",
+    "reason": "new"
+  },
+  {
+    "id": "33.4",
+    "label": "33.4 (local) quick telepoof + manual aiming (4/6)",
+    "reason": "new"
+  },
+  {
+    "id": "33.5",
+    "label": "33.5 (local) quick telepoof + manual aiming (5/6)",
+    "reason": "new"
+  },
+  {
+    "id": "33.6",
+    "label": "33.6 (local) quick telepoof + manual aiming (6/6)",
+    "reason": "new"
+  }
+]

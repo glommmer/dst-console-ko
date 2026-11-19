@@ -189,7 +189,7 @@
   },
   {
     "text": "local A,B,F=1,9999,[[]] TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end local P=[[[^]]..string.char(10)..[[]+]] local Q,n={},0 for l in s:gmatch(P) do n=n+1 if n>=A and n<=B and (F==[[]] or l:find(F,1,true)) then local b,d=l:sub(2),{} for k in b:gmatch([[function%s+([%w_%.:]+)]]) do d[#d+1]=k end for k in b:gmatch([[([%w_%.]+)%s*=%s*function]]) do d[#d+1]=k end Q[#Q+1]=[[#]]..n..[[ ]]..l:sub(1,1)..[[ ]]..table.concat(d,[[,]],1,math.min(#d,3))..[[ | ]]..(#b>66 and b:sub(1,40)..[[ .. ]]..b:sub(-24) or b)..[[ (]]..#l..[[)]] end end Networking_SystemMessage([[mw_macro: ]]..n..[[ lines, showing ]]..#Q) local i=0 local function go() i=i+1 if Q[i] then ChatHistory:AddToHistory(ChatTypes.SystemMessage,nil,nil,nil,Q[i],{.7,.85,1,1},nil,nil,true) if ThePlayer then ThePlayer:DoTaskInTime(.3,go) else go() end end end go() end) --RUN",
-    "label": "8.5 (Local) lists all commands in the macro to chat history"
+    "label": "8.5 (Local) lists all commands in the macro to chat history | use 26 to view and scroll thru the list"
   },
   {
     "text": "local D={5,[[EnterNumberOrNumberRange]]} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
@@ -382,5 +382,29 @@
   {
     "text": "local function P(i) if i.MW_inf then return end i.MW_inf=1 i.TurnOffMachine=function(i) if i.components.machine:IsOn() then local s=i:GetRecordSong() if s and not i.SoundEmitter:PlayingSound([[ragtime]]) then i.SoundEmitter:PlaySound(s,[[ragtime]]) end i._stop_song_task=i:DoTaskInTime(TUNING.PHONOGRAPH_PLAY_TIME,i.TurnOffMachine) end end if i._stop_song_task then i._stop_song_task:Cancel() i._stop_song_task=nil end if i.components.machine:IsOn() then i._stop_song_task=i:DoTaskInTime(TUNING.PHONOGRAPH_PLAY_TIME,i.TurnOffMachine) end end local function S() for _,e in pairs(Ents) do if e.prefab==[[phonograph]] and e.components.machine then P(e) end end end if TheWorld.MW_pg then TheWorld.MW_pg:Cancel() end TheWorld.MW_pg=TheWorld:DoPeriodicTask(5,S) S() --M",
     "label": "32 (remote) Gramophone play indefinitely (normally plays for 62s)| for farmers"
+  },
+  {
+    "text": "local C=ThePlayer.HUD.controls if C.bl then C.bl:Kill() C.bl=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.bl=b b.scale_on_focus=false local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.4/k) b:SetPosition((W*0.8479-w.x)/k,(H*0.3731-w.y)/k) b:Hide() --M",
+    "label": "33.1 (local) quick telepoof + manual aiming (1/6"
+  },
+  {
+    "text": "local P=ThePlayer if P._blt then P._blt:Cancel() end P._blt=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.bl if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local f for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[orangestaff]] then f=v end end end if f then if not b.shown then local r=f.replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) b:Show() end elseif b.shown then b:Hide() end end) --M",
+    "label": "33.2 (local) quick telepoof + manual aiming (2/6)"
+  },
+  {
+    "text": "MW_BG=rawget(_G,[[MW_BG]]) or 3 MW_BC=[=[local p=ThePlayer local I=p.components.inventory local s=I:GetEquippedItem(EQUIPSLOTS.HANDS) if not(s and s.prefab==[[orangestaff]]) then s=I:FindItem(function(i) return i.prefab==[[orangestaff]] end) end if s and s.components.blinkstaff then p:PushBufferedAction(BufferedAction(p,nil,ACTIONS.BLINK,s,Vector3(%.2f,0,%.2f))) else p.components.talker:Say([[No staff]],2) end]=] --M",
+    "label": "33.3 (local) quick telepoof + manual aiming (3/6)"
+  },
+  {
+    "text": "local P=ThePlayer local C=P.HUD.controls if C.bm then C.bm:Kill() end if P._br and P._br:IsValid() then P._br:Remove() end local r=SpawnPrefab([[reticule]]) r:Hide() P._br=r local m=C:AddChild(require[[widgets/image]]([[images/global.xml]],[[square.tex]])) C.bm=m m:SetClickable(false) m:ScaleToSize(22,22) m:Hide() local A={} P._bA=A local W,H=TheSim:GetScreenSize() A.f=function(x,y) local g=MW_BG local u=math.max(0,math.min(W,A.px+(x-A.sx)*g)) local v=math.max(0,math.min(H,A.py+(y-A.sy)*g)) local a,_,c=TheSim:ProjectScreenPos(u,v) return a,c,u,v end --M",
+    "label": "33.4 (local) quick telepoof + manual aiming (4/6)"
+  },
+  {
+    "text": "local P=ThePlayer local C=P.HUD.controls local A=P._bA local m=C.bm local H=select(2,TheSim:GetScreenSize()) for _,h in ipairs(rawget(_G,[[MW_BH]]) or {}) do h:Remove() end local function N(x,y) local b=C.bl local q=b and b.shown and b:GetWorldPosition() return q and (q.x-x)^2+(q.y-y)^2<(.06*H)^2 end MW_BH={TheInput:AddTouchStartHandler(function(i,x,y) if N(x,y) then A.i=i A.sx,A.sy=x,y local p=P:GetPosition() A.px,A.py=TheSim:GetScreenPos(p.x,0,p.z) end end),TheInput:AddTouchEndHandler(function(i,x,y) if A.i~=i then return end A.i=nil m:Hide() local r=P._br if r and r:IsValid() then r:Hide() end if N(x,y) then return end local a,c=A.f(x,y) if a then TheNet:SendRemoteExecute(string.format(MW_BC,a,c),a,c) end end)} --M",
+    "label": "33.5 (local) quick telepoof + manual aiming (5/6)"
+  },
+  {
+    "text": "local P=ThePlayer local C=P.HUD.controls local m=C.bm local A=P._bA local wp=C:GetWorldPosition() local sc=C:GetScale().x if P._bat then P._bat:Cancel() end P._bat=P:DoPeriodicTask(.03,function() if not A.i then return end local p=TheInput:GetScreenPosition() local a,c,u,v=A.f(p.x,p.y) if not a then return end local ok=TheWorld.Map:IsPassableAtPoint(a,0,c) local r=P._br if r and r:IsValid() then r.Transform:SetPosition(a,0,c) r.AnimState:SetMultColour(ok and 0 or 1,ok and 1 or 0,.2,1) r:Show() else m:SetPosition((u-wp.x)/sc,(v-wp.y)/sc) m:SetTint(ok and 0 or 1,ok and 1 or 0,.2,.9) m:Show() end end) --M",
+    "label": "33.6 (local) quick telepoof + manual aiming (6/6)"
   }
 ]
