@@ -304,15 +304,15 @@
     "label": "26.1 (Local) Chat screen+ (1/4)"
   },
   {
-    "text": "function MW_Upd(s,dt) local G=s.MW_g if not G then return end s.MW_L=s.MW_L or (s.networkchatqueue and MW_F(s.networkchatqueue,0)) local L=s.MW_L if not L then return end s.MW_c=(s.MW_c or 0)-(dt or 0) if s.MW_c<=0 then s.MW_c=.3 s.MW_lo=-MW_R(L,-1) s.MW_hi=MW_R(L,1) end local lo,hi=s.MW_lo,s.MW_hi local p=TheInput:GetScreenPosition() local vx,vy=(p.x-G.W/2)/G.k,(p.y-G.H/2)/G.k local tp=G.t:GetPosition() local top,bot=tp.y+G.L/2,tp.y-G.L/2 if TheInput:IsControlPressed(CONTROL_PRIMARY) then if not s.MW_d and math.abs(vx-tp.x)<40 and vy>bot-20 and vy<top+20 then s.MW_d=true end else s.MW_d=nil end local sp=hi-lo if s.MW_d and sp>0 then local f=math.max(0,math.min(1,(vy-bot)/(top-bot))) L:Scroll(math.floor(hi-f*sp+.5)-L.target_scroll_pos,true) end local f=sp>0 and (hi-L.current_scroll_pos)/sp or 0 G.h:SetPosition(tp.x,bot+math.max(0,math.min(1,f))*(top-bot)) end --M",
+    "text": "function MW_In(s) local G=s.MW_g local p=TheInput:GetScreenPosition() local H=G.H return math.abs(p.x-(G.W-.04*H))<.05*H and p.y>.3*H-30 and p.y<.7*H+30 end function MW_Drag(s) local G,L=s.MW_g,s.MW_L if not(G and L and s.MW_lo) then return end local H=G.H local f=math.max(0,math.min(1,(TheInput:GetScreenPosition().y-.3*H)/(.4*H))) L:Scroll(math.floor(s.MW_hi-f*(s.MW_hi-s.MW_lo)+.5)-L.target_scroll_pos,true) end function MW_Upd(s,dt) local G=s.MW_g if not G then return end s.MW_L=s.MW_L or MW_F(s.networkchatqueue or s,0) local L=s.MW_L if not L then if not s.MW_e then s.MW_e=1 Networking_SystemMessage([[bar: list not found]]) end return end s.MW_c=(s.MW_c or 0)-(dt or 0) if s.MW_c<=0 then s.MW_c=.3 s.MW_lo=-MW_R(L,-1) s.MW_hi=MW_R(L,1) end if s.MW_d then MW_Drag(s) end local sp=s.MW_hi-s.MW_lo local f=sp>0 and (s.MW_hi-L.current_scroll_pos)/sp or 0 G.h:SetPosition(G.x,-G.L/2+math.max(0,math.min(1,f))*G.L) end --M",
     "label": "26.2 (Local) Chat screen+ (2/4)"
   },
   {
-    "text": "function MW_Bar(s) local Wd,Im,IB=require[[widgets/widget]],require[[widgets/image]],require[[widgets/imagebutton]] local g=s:AddChild(Wd([[mw]])) g:SetScaleMode(SCALEMODE_PROPORTIONAL) g:SetHAnchor(ANCHOR_MIDDLE) g:SetVAnchor(ANCHOR_MIDDLE) local W,H=TheSim:GetScreenSize() local w={x=W/2,y=H/2} local k=H/RESOLUTION_Y local b=g:AddChild(IB([[images/global_redux.xml]],[[close.tex]],[[close.tex]],[[close.tex]])) b:SetScale(.55) b:SetPosition((W-0.06*H-w.x)/k,(H-0.08*H-w.y)/k) b:SetOnClick(function() s.MW_stay=false s:Close() end) local t=g:AddChild(Im([[images/global.xml]],[[square.tex]])) t:SetClickable(false) t:SetTint(1,1,1,.3) t:ScaleToSize(12,.4*H/k) t:SetPosition((W-0.04*H-w.x)/k,(H-0.5*H-w.y)/k) local h=g:AddChild(Im([[images/global.xml]],[[square.tex]])) h:SetClickable(false) h:SetTint(.9,.75,.3,.9) h:ScaleToSize(22,64) s.MW_g={t=t,h=h,k=k,W=W,H=H,L=.4*H/k} end --M",
+    "text": "function MW_Bar(s) local Wd,Im,IB=require[[widgets/widget]],require[[widgets/image]],require[[widgets/imagebutton]] local g=s:AddChild(Wd([[mw]])) g:SetScaleMode(SCALEMODE_PROPORTIONAL) g:SetHAnchor(ANCHOR_MIDDLE) g:SetVAnchor(ANCHOR_MIDDLE) local W,H=TheSim:GetScreenSize() local w={x=W/2,y=H/2} local k=H/RESOLUTION_Y local b=g:AddChild(IB([[images/global_redux.xml]],[[close.tex]],[[close.tex]],[[close.tex]])) b:SetScale(.55) b:SetPosition((W-0.06*H-w.x)/k,(H-0.08*H-w.y)/k) b:SetOnClick(function() s.MW_stay=false s:Close() end) local L,x=.4*H/k,(W-0.04*H-w.x)/k local t=g:AddChild(Im([[images/global.xml]],[[square.tex]])) t:SetClickable(false) t:SetTint(1,1,1,.3) t:ScaleToSize(12,L) t:SetPosition(x,0) local h=g:AddChild(Im([[images/global.xml]],[[square.tex]])) h:SetClickable(false) h:SetTint(.9,.75,.3,.9) h:ScaleToSize(22,64) h:SetPosition(x,-L/2) s.MW_g={h=h,x=x,L=L,W=W,H=H} end --M",
     "label": "26.3 (Local) Chat screen+  (3/4)"
   },
   {
-    "text": "local S=require[[screens/chatinputscreen]] S.MWK=S.MWK or S.Close S.Close=function(s,...) if s.MW_stay then return end return S.MWK(s,...) end S.MWC=S.MWC or S._ctor S._ctor=function(s,...) S.MWC(s,...) s.MW_stay=true MW_Bar(s) end S.MWU=S.MWU or S.OnUpdate S.OnUpdate=function(s,dt,...) S.MWU(s,dt,...) pcall(MW_Upd,s,dt) end --M",
+    "text": "local S=require[[screens/chatinputscreen]] S.MWK=S.MWK or S.Close S.Close=function(s,...) if s.MW_stay then return end return S.MWK(s,...) end S.MWO=S.MWO or S.OnControl S.OnControl=function(s,c,d,...) if s.MW_g and (c==CONTROL_PRIMARY or c==CONTROL_ACCEPT) then if d then s.MW_d=MW_In(s) or nil if s.MW_d then return true end elseif s.MW_d then s.MW_d=nil return true end end return S.MWO(s,c,d,...) end S.MWU=S.MWU or S.OnUpdate S.OnUpdate=function(s,dt,...) S.MWU(s,dt,...) if s.MW_stay==nil then s.MW_stay=true end local o,e=pcall(function() if s.MW_g==nil then s.MW_g=false MW_Bar(s) end MW_Upd(s,dt) end) if not o and not s.MW_x then s.MW_x=1 Networking_SystemMessage([[bar: ]]..tostring(e)) end end --M",
     "label": "26.4 (Local) Chat screen+ (4/4)"
   },
   {
@@ -333,18 +333,22 @@
   },
   {
     "text": "local H=ThePlayer.HUD for _,n in ipairs{\"insanityoverlay\",\"insanity_overlay\",\"vig\",\"mindover\"} do local w=H[n] or (H.controls and H.controls[n]) if w then w.Show=function() end w:Hide() end end --M",
-    "label": "28 (local) remove Insanity visuals and probably all nightvision tints(only when low or no sanity)"
+    "label": "28.1 (local) remove Insanity visuals and probably all nightvision tints(only when low or no sanity)"
+  },
+  {
+    "text": "TheMixer:SetLevel(\"sanity\", 0) --M",
+    "label": "28.2 (local) remove Insanity sound effects"
   },
   {
     "text": "local P=ThePlayer local PP=PostProcessor local m=getmetatable(PP).__index local function z() pcall(function() if m.SetColourCubeLerp then m.SetColourCubeLerp(PP,0,0) end if m.SetOverlayBlend then m.SetOverlayBlend(PP,0) end end) end for _,n in ipairs{[[SetColourCubeLerp]],[[SetColourCubeData]],[[SetOverlayBlend]]} do if m[n] then m[n]=function()end end end z() if P and not P._mogz then P._mogz=P:DoPeriodicTask(0,z) end --M",
     "label": "29 (local) remove moggles night tint"
   },
   {
-    "text": "local C=ThePlayer.HUD.controls if C.ab then C.ab:Kill() C.ab=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
+    "text": "local C=ThePlayer.HUD.controls if C.ab1 then C.ab1:Kill() C.ab1=nil end if C.ab then C.ab:Kill() C.ab=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab1=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls1 or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
     "label": "30.1 (local) Wanda Ageless watch button (1/2)"
   },
   {
-    "text": "local P=ThePlayer if P._abt then P._abt:Cancel() end P._abt=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_heal]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
+    "text": "local P=ThePlayer if P._abt1 then P._abt1:Cancel() end if P._abt then P._abt:Cancel() P._abt=nil end P._abt1=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab1 if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_heal]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls1=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
     "label": "30.2 (local) Wanda Ageless watch button (2/2)"
   },
   {
@@ -374,5 +378,9 @@
   {
     "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.health:SetPercent(1) p.components.hunger:SetPercent(1) p.components.hunger:Pause(true) p.components.sanity:SetPercent(1) p.components.sanity:SetRate(0)\n--RUN",
     "label": "TESTSERVEr (Remote) godmode and free crafting"
+  },
+  {
+    "text": "local function P(i) if i.MW_inf then return end i.MW_inf=1 i.TurnOffMachine=function(i) if i.components.machine:IsOn() then local s=i:GetRecordSong() if s and not i.SoundEmitter:PlayingSound([[ragtime]]) then i.SoundEmitter:PlaySound(s,[[ragtime]]) end i._stop_song_task=i:DoTaskInTime(TUNING.PHONOGRAPH_PLAY_TIME,i.TurnOffMachine) end end if i._stop_song_task then i._stop_song_task:Cancel() i._stop_song_task=nil end if i.components.machine:IsOn() then i._stop_song_task=i:DoTaskInTime(TUNING.PHONOGRAPH_PLAY_TIME,i.TurnOffMachine) end end local function S() for _,e in pairs(Ents) do if e.prefab==[[phonograph]] and e.components.machine then P(e) end end end if TheWorld.MW_pg then TheWorld.MW_pg:Cancel() end TheWorld.MW_pg=TheWorld:DoPeriodicTask(5,S) S() --M",
+    "label": "32 (remote) Gramophone play indefinitely (normally plays for 62s)| for farmers"
   }
 ]
