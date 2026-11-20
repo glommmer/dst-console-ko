@@ -61,18 +61,18 @@
   },
   "8.1": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "5c3b2b5d4541"
+    "changed": "2026-11-20",
+    "hash": "4c408dad199f"
   },
   "8.2": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "216db76d3bfc"
+    "changed": "2026-11-20",
+    "hash": "545966655d89"
   },
   "8.3": {
     "first_seen": null,
-    "changed": "2026-11-16",
-    "hash": "3e1b9432e890"
+    "changed": "2026-11-20",
+    "hash": "e0751241cd99"
   },
   "8.4": {
     "first_seen": null,
@@ -151,13 +151,13 @@
   },
   "13.1": {
     "first_seen": null,
-    "changed": "2026-11-13",
-    "hash": "385bdb0e3755"
+    "changed": "2026-11-20",
+    "hash": "90997da20652"
   },
   "13.2": {
     "first_seen": null,
-    "changed": null,
-    "hash": "8834895161f3"
+    "changed": "2026-11-20",
+    "hash": "15e10df9880b"
   },
   "misc-tp-all-stranded": {
     "first_seen": null,
@@ -361,18 +361,18 @@
   },
   "8.3.2": {
     "first_seen": "2026-11-16",
-    "changed": null,
-    "hash": "1019a1fbd9c3"
+    "changed": "2026-11-20",
+    "hash": "14c992fa76c4"
   },
   "8.5": {
     "first_seen": "2026-11-16",
-    "changed": null,
-    "hash": "3209b43c3a31"
+    "changed": "2026-11-20",
+    "hash": "ccfd1a308413"
   },
   "8.6": {
     "first_seen": "2026-11-16",
-    "changed": "2026-11-18",
-    "hash": "26b424990bc9"
+    "changed": "2026-11-20",
+    "hash": "18072732262f"
   },
   "25.1": {
     "first_seen": "2026-11-16",
@@ -446,23 +446,23 @@
   },
   "30.1": {
     "first_seen": "2026-11-18",
-    "changed": "2026-11-19",
-    "hash": "1eddfc6fe2ad"
+    "changed": "2026-11-20",
+    "hash": "1d35ed4ef21f"
   },
   "30.2": {
     "first_seen": "2026-11-18",
-    "changed": "2026-11-19",
-    "hash": "663a5f198a74"
+    "changed": "2026-11-20",
+    "hash": "f39988a22af5"
   },
   "31.1": {
     "first_seen": "2026-11-18",
-    "changed": null,
-    "hash": "559b08b7bb18"
+    "changed": "2026-11-20",
+    "hash": "ea373f784d81"
   },
   "31.2": {
     "first_seen": "2026-11-18",
-    "changed": null,
-    "hash": "7c5900b9bac6"
+    "changed": "2026-11-20",
+    "hash": "4d5ae0e8da07"
   },
   "28.1": {
     "first_seen": "2026-11-19",
@@ -508,5 +508,10 @@
     "first_seen": "2026-11-19",
     "changed": null,
     "hash": "0afcf9b80e85"
+  },
+  "8.7": {
+    "first_seen": "2026-11-20",
+    "changed": null,
+    "hash": "474fec9ffe38"
   }
 }

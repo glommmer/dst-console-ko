@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "id": "8.1",
+    "label": "8.1 (Local) Saves all commands tagged with --M into a persistent string so we no longer need it saved in console history",
+    "reason": "changed"
+  },
+  {
+    "id": "8.2",
+    "label": "8.2 (Local) Runs all commands saved in the persistent string (#5 is no longer needed)",
+    "reason": "changed"
+  },
+  {
+    "id": "8.3",
+    "label": "8.3 (Local) Adds new commands to save in the persistent string",
+    "reason": "changed"
+  },
+  {
+    "id": "8.3.2",
+    "label": "8.3.2 (local) just 8.3 but with console history clear right after",
+    "reason": "changed"
+  },
+  {
+    "id": "13.1",
+    "label": "13.1 (Local) One Tap Spellwheel",
+    "reason": "changed"
+  },
+  {
+    "id": "13.2",
+    "label": "13.2 (Local) One Tap Spellwheel cast with Dpad (Optional) Make sure your left thumb is on the dpad before tapping the button then use the dpad to swipe to the desired spell then release dpad.",
+    "reason": "changed"
+  },
+  {
+    "id": "8.5",
+    "label": "8.5 (Local) lists all commands in the macro to chat history | use 26 to view and scroll thru the list",
+    "reason": "changed"
+  },
+  {
+    "id": "8.6",
+    "label": "8.6 (local) delete commands in persistent string | change the placeholder number 67 first! maybe use the filter box even lol",
+    "reason": "changed"
+  },
+  {
+    "id": "8.7",
+    "label": "8.7 (local) Recover using backup after an 8.6 DELETE | I SAY RECOVER BUT THIS ONLY UNDOS THE MOST RECENT 8.6 RUN SO BE CAREFUL WITH DELETIONS",
+    "reason": "new"
+  },
+  {
+    "id": "30.1",
+    "label": "30.1 (local) Wanda Ageless watch button (1/2)",
+    "reason": "changed"
+  },
+  {
+    "id": "30.2",
+    "label": "30.2 (local) Wanda Ageless watch button (2/2)",
+    "reason": "changed"
+  },
+  {
+    "id": "31.1",
+    "label": "31.1 (local) Wanda Backstep Button (1/2)",
+    "reason": "changed"
+  },
+  {
+    "id": "31.2",
+    "label": "31.2 (local) Wanda Backstep Button (2/2)",
+    "reason": "changed"
+  }
+]

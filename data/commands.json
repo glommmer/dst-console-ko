@@ -149,10 +149,10 @@
     "label": "8.1 (Local) Saves all commands tagged with --M into a persistent string so we no longer need it saved in console history",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old) local L,K={},{} local function add(l) local k=l:sub(2,45) if K[k] then L[K[k]]=l else L[#L+1]=l K[k]=#L end end if ok then for l in old:gmatch(([[[^]]..string.char(10)..[[]+]])) do add(l) end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory()) do if v.str:find([[--M]],1,true) and not v.str:find([[--RUN]],1,true) then add((v.remote and [[R]] or [[L]])..v.str) end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false) Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]]) end) --RUN",
-    "length": 591,
-    "original_length": 591,
-    "hash": "5c3b2b5d4541",
+    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old)local L,K={},{}local function add(l)local k=l:sub(2)if K[k]then L[K[k]]=l else L[#L+1]=l K[k]=#L end end if ok then for l in old:gmatch(([[[^]]..string.char(10)..[[]+]]))do add(l)end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory())do local s=v.str if s:find([[--M]],1,true)and not s:find([[--RUN]],1,true)and not s:find([[mw_macro]],1,true)and not s:find([[ConsoleScreenSettings]],1,true)then local t=s:match([[%-%-M:([%w_,]+)%s*$]])add((v.remote and [[R]]or [[L]])..(t and [[@]]..t..[[|]]or [[]])..s)end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false)Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]])end) --RUN",
+    "length": 731,
+    "original_length": 731,
+    "hash": "4c408dad199f",
     "flags": []
   },
   {
@@ -161,10 +161,10 @@
     "label": "8.2 (Local) Runs all commands saved in the persistent string (#5 is no longer needed)",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok then Networking_SystemMessage([[no saved macro]]) return end local n=0 for l in s:gmatch(([[[^]]..string.char(10)..[[]+]])) do local c=l:sub(2) n=n+1 local o,e=pcall(function() if l:sub(1,1)==[[R]] then local x,_,z=TheSim:ProjectScreenPos(TheSim:GetPosition()) TheNet:SendRemoteExecute(c,x,z) else ExecuteConsoleCommand(c) end end) if not o then Networking_SystemMessage([[MWRUN: ]]..tostring(e)) end end Networking_SystemMessage([[MWRUN ran ]]..n) end) --RUN",
-    "length": 524,
-    "original_length": 524,
-    "hash": "216db76d3bfc",
+    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok then Networking_SystemMessage([[no saved macro]]) return end local n=0 local me=[[,]]..ThePlayer.prefab..[[,]] for l in s:gmatch(([[[^]]..string.char(10)..[[]+]])) do local c=l:sub(2) local t=c:match([[^@([%w_,]+)|]]) if t then c=c:sub(#t+3) end if not t or ([[,]]..t..[[,]]):find(me,1,true) then n=n+1 local o,e=pcall(function() if l:sub(1,1)==[[R]] then local x,_,z=TheSim:ProjectScreenPos(TheSim:GetPosition()) TheNet:SendRemoteExecute(c,x,z) else ExecuteConsoleCommand(c) end end) if not o then Networking_SystemMessage([[MWRUN: ]]..tostring(e)) end end end Networking_SystemMessage([[MWRUN ran ]]..n) end) --RUN",
+    "length": 681,
+    "original_length": 681,
+    "hash": "545966655d89",
     "flags": []
   },
   {
@@ -173,10 +173,10 @@
     "label": "8.3 (Local) Adds new commands to save in the persistent string",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old)local L,K={},{}local function add(l)local k=l:sub(2)if K[k]then L[K[k]]=l else L[#L+1]=l K[k]=#L end end if ok then for l in old:gmatch(([[[^]]..string.char(10)..[[]+]]))do add(l)end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory())do local s=v.str if s:find([[--M]],1,true)and not s:find([[--RUN]],1,true)and not s:find([[mw_macro]],1,true)and not s:find([[ConsoleScreenSettings]],1,true)then add((v.remote and [[R]]or [[L]])..s)end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false)Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]])end) --RUN",
-    "length": 659,
-    "original_length": 659,
-    "hash": "3e1b9432e890",
+    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old)if not ok then Networking_SystemMessage([[mw_macro unreadable: nothing saved]])return end TheSim:SetPersistentString([[mw_macro_sv]],old,false)local L,K={},{}local function add(l)local k=l:sub(2)if K[k]then L[K[k]]=l else L[#L+1]=l K[k]=#L end end for l in old:gmatch(([[[^]]..string.char(10)..[[]+]]))do add(l)end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory())do local s=v.str if s:find([[--M]],1,true)and not s:find([[--RUN]],1,true)and not s:find([[mw_macro]],1,true)and not s:find([[ConsoleScreenSettings]],1,true)then local t=s:match([[%-%-M:([%w_,]+)%s*$]])add((v.remote and [[R]]or [[L]])..(t and [[@]]..t..[[|]]or [[]])..s)end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false)Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]])end) --RUN",
+    "length": 859,
+    "original_length": 859,
+    "hash": "e0751241cd99",
     "flags": []
   },
   {
@@ -185,10 +185,10 @@
     "label": "8.3.2 (local) just 8.3 but with console history clear right after",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old) local L,K={},{} local function add(l) local k=l:sub(2) if K[k] then L[K[k]]=l else L[#L+1]=l K[k]=#L end end if ok then for l in old:gmatch([[[^]]..string.char(10)..[[]+]]) do add(l) end end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory()) do local s=v.str if s:find([[--M]],1,true) and not s:find([[--RUN]],1,true) and not s:find([[mw_macro]],1,true) and not s:find([[ConsoleScreenSettings]],1,true) then add((v.remote and [[R]] or [[L]])..s) end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false) Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]]) ConsoleScreenSettings:Reset() end)--RUN",
-    "length": 702,
-    "original_length": 698,
-    "hash": "1019a1fbd9c3",
+    "text": "TheSim:GetPersistentString([[mw_macro]],function(ok,old)if not ok then Networking_SystemMessage([[mw_macro unreadable: nothing saved]])return end TheSim:SetPersistentString([[mw_macro_sv]],old,false)local L,K={},{}local function add(l)local k=l:sub(2)if K[k]then L[K[k]]=l else L[#L+1]=l K[k]=#L end end for l in old:gmatch(([[[^]]..string.char(10)..[[]+]]))do add(l)end for _,v in ipairs(ConsoleScreenSettings:GetConsoleHistory())do local s=v.str if s:find([[--M]],1,true)and not s:find([[--RUN]],1,true)and not s:find([[mw_macro]],1,true)and not s:find([[ConsoleScreenSettings]],1,true)then local t=s:match([[%-%-M:([%w_,]+)%s*$]])add((v.remote and [[R]]or [[L]])..(t and [[@]]..t..[[|]]or [[]])..s)end end TheSim:SetPersistentString([[mw_macro]],table.concat(L,string.char(10)),false)Networking_SystemMessage([[MW macro saved: ]]..#L..[[ lines]])ConsoleScreenSettings:Reset()end) --RUN",
+    "length": 888,
+    "original_length": 888,
+    "hash": "14c992fa76c4",
     "flags": []
   },
   {
@@ -389,10 +389,10 @@
     "label": "13.1 (Local) One Tap Spellwheel",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local P=ThePlayer local C=P.HUD.controls local L if C.ab then return end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local h=P.HUD if h:IsSpellWheelOpen() then h:CloseSpellWheel() elseif L and L:IsValid() then L.components.spellbook:OpenSpellBook(P) end end) P:DoPeriodicTask(.4,function() local I=P.replica.inventory local o=I:GetOverflowContainer() local n for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do local c=v.components.spellbook if c and c:CanBeUsedBy(P) then n=v break end end if n then break end end if n~=L then L=n if n then local r=n.replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) b:Show() else b:Hide() end end end) --M",
-    "length": 964,
-    "original_length": 964,
-    "hash": "385bdb0e3755",
+    "text": "local P=ThePlayer local C=P.HUD.controls local L if C.ab then return end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local h=P.HUD if h:IsSpellWheelOpen() then h:CloseSpellWheel() elseif L and L:IsValid() then L.components.spellbook:OpenSpellBook(P) end end) P:DoPeriodicTask(.4,function() local I=P.replica.inventory local o=I:GetOverflowContainer() local n for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do local c=v.components.spellbook if c and c:CanBeUsedBy(P) then n=v break end end if n then break end end if n~=L then L=n if n then local r=n.replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) b:Show() else b:Hide() end end end) --M:waxwell,wendy,willow,winona",
+    "length": 992,
+    "original_length": 992,
+    "hash": "90997da20652",
     "flags": []
   },
   {
@@ -401,10 +401,10 @@
     "label": "13.2 (Local) One Tap Spellwheel cast with Dpad (Optional) Make sure your left thumb is on the dpad before tapping the button then use the dpad to swipe to the desired spell then release dpad.",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local C=ThePlayer.HUD.controls local s=C.virtualstick local w=C.spellwheel if s.hk then return end s.hk=1 local m,e,o=s.OnTouchMove,s.OnTouchEnd,w.overlay.OnControl w.overlay.OnControl=function(a,c,d) if d and TheInput.GetScreenPosition and s:IsTouchPositionOnStick(TheInput:GetScreenPosition():Get()) then return true end return o(a,c,d) end s.OnTouchMove=function(a,i,x,y) m(a,i,x,y) if w.isopen and i==a.touchID then a.dirX=0 a.dirY=0 local t=w.activeitems local n=#t local c=TWOPI/n local g=math.atan2(a.lastXPos,a.lastYPos)+c/2 if g<0 then g=g+TWOPI end local k=a.length>.3 and math.floor(g/c)%n+1 or 0 if k~=w.cur_cell_index then w.cur_cell_index=0 if t[k] and t[k].widget:IsEnabled() then t[k].widget:SetFocus() w.cur_cell_index=k end end end end s.OnTouchEnd=function(a,i,x,y) local c=w.isopen and i==a.touchID and w.cur_cell_index local r=e(a,i,x,y) if c and c>0 then w.activeitems[c].widget.onclick() end return r end --M",
-    "length": 931,
-    "original_length": 931,
-    "hash": "8834895161f3",
+    "text": "local C=ThePlayer.HUD.controls local s=C.virtualstick local w=C.spellwheel if s.hk then return end s.hk=1 local m,e,o=s.OnTouchMove,s.OnTouchEnd,w.overlay.OnControl w.overlay.OnControl=function(a,c,d) if d and TheInput.GetScreenPosition and s:IsTouchPositionOnStick(TheInput:GetScreenPosition():Get()) then return true end return o(a,c,d) end s.OnTouchMove=function(a,i,x,y) m(a,i,x,y) if w.isopen and i==a.touchID then a.dirX=0 a.dirY=0 local t=w.activeitems local n=#t local c=TWOPI/n local g=math.atan2(a.lastXPos,a.lastYPos)+c/2 if g<0 then g=g+TWOPI end local k=a.length>.3 and math.floor(g/c)%n+1 or 0 if k~=w.cur_cell_index then w.cur_cell_index=0 if t[k] and t[k].widget:IsEnabled() then t[k].widget:SetFocus() w.cur_cell_index=k end end end end s.OnTouchEnd=function(a,i,x,y) local c=w.isopen and i==a.touchID and w.cur_cell_index local r=e(a,i,x,y) if c and c>0 then w.activeitems[c].widget.onclick() end return r end --M:waxwell,wendy,willow,winona",
+    "length": 959,
+    "original_length": 959,
+    "hash": "15e10df9880b",
     "flags": []
   },
   {
@@ -569,27 +569,39 @@
     "label": "8.5 (Local) lists all commands in the macro to chat history | use 26 to view and scroll thru the list",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local A,B,F=1,9999,[[]] TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end local P=[[[^]]..string.char(10)..[[]+]] local Q,n={},0 for l in s:gmatch(P) do n=n+1 if n>=A and n<=B and (F==[[]] or l:find(F,1,true)) then local b,d=l:sub(2),{} for k in b:gmatch([[function%s+([%w_%.:]+)]]) do d[#d+1]=k end for k in b:gmatch([[([%w_%.]+)%s*=%s*function]]) do d[#d+1]=k end Q[#Q+1]=[[#]]..n..[[ ]]..l:sub(1,1)..[[ ]]..table.concat(d,[[,]],1,math.min(#d,3))..[[ | ]]..(#b>66 and b:sub(1,40)..[[ .. ]]..b:sub(-24) or b)..[[ (]]..#l..[[)]] end end Networking_SystemMessage([[mw_macro: ]]..n..[[ lines, showing ]]..#Q) local i=0 local function go() i=i+1 if Q[i] then ChatHistory:AddToHistory(ChatTypes.SystemMessage,nil,nil,nil,Q[i],{.7,.85,1,1},nil,nil,true) if ThePlayer then ThePlayer:DoTaskInTime(.3,go) else go() end end end go() end) --RUN",
-    "length": 874,
-    "original_length": 874,
-    "hash": "3209b43c3a31",
+    "text": "local A,B,F=1,9999,[[]] TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end local P=[[[^]]..string.char(10)..[[]+]] local Q,n={},0 for l in s:gmatch(P) do n=n+1 if n>=A and n<=B and (F==[[]] or l:find(F,1,true)) then local b,d=l:sub(2),{} for k in b:gmatch([[function%s+([%w_%.:]+)]]) do d[#d+1]=k end for k in b:gmatch([[([%w_%.]+)%s*=%s*function]]) do d[#d+1]=k end Q[#Q+1]=[[#]]..n..[[ ]]..l:sub(1,1)..[[ ]]..table.concat(d,[[,]],1,math.min(#d,3))..[[ | ]]..(#b>66 and b:sub(1,40)..[[ .. ]]..b:sub(-24) or b)..[[ (]]..#(b:gsub([[^@[^|]+|]],[[]]))..[[)]] end end Networking_SystemMessage([[mw_macro: ]]..n..[[ lines, showing ]]..#Q) local i=0 local function go() i=i+1 if Q[i] then ChatHistory:AddToHistory(ChatTypes.SystemMessage,nil,nil,nil,Q[i],{.7,.85,1,1},nil,nil,true) if ThePlayer then ThePlayer:DoTaskInTime(.3,go) else go() end end end go() end) --RUN",
+    "length": 900,
+    "original_length": 900,
+    "hash": "ccfd1a308413",
     "flags": []
   },
   {
     "id": "8.6",
     "order": 48,
-    "label": "8.6 (local) delete commands in persistent string | change placeholder to number or number range ie 6 or 6-7",
+    "label": "8.6 (local) delete commands in persistent string | change the placeholder number 67 first! maybe use the filter box even lol",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local D={5,[[EnterNumberOrNumberRange]]} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
-    "length": 664,
-    "original_length": 664,
-    "hash": "26b424990bc9",
+    "text": "local D={67} TheSim:GetPersistentString([[mw_macro]],function(ok,s) if not ok or not s then return end TheSim:SetPersistentString([[mw_macro_bak]],s,false) local P=[[[^]]..string.char(10)..[[]+]] local L,X,O={},{},{} for l in s:gmatch(P) do L[#L+1]=l end for _,d in ipairs(D) do local a,b=tostring(d):match([[(%d+)-?(%d*)]]) a=tonumber(a) b=tonumber(b) or a if a then for i=a,b do X[i]=true end end end for i,l in ipairs(L) do if not X[i] then O[#O+1]=l end end TheSim:SetPersistentString([[mw_macro]],table.concat(O,string.char(10)),false) Networking_SystemMessage([[mw_macro: ]]..#L..[[ -> ]]..#O..[[ lines, backup saved]]) end) --RUN",
+    "length": 636,
+    "original_length": 636,
+    "hash": "18072732262f",
+    "flags": []
+  },
+  {
+    "id": "8.7",
+    "order": 49,
+    "label": "8.7 (local) Recover using backup after an 8.6 DELETE | I SAY RECOVER BUT THIS ONLY UNDOS THE MOST RECENT 8.6 RUN SO BE CAREFUL WITH DELETIONS",
+    "mode": "LOCAL",
+    "kind": "code",
+    "text": "TheSim:GetPersistentString([[mw_macro_bak]],function(ok,b) if not ok or not b or b==[[]] then Networking_SystemMessage([[no backup found]]) return end TheSim:GetPersistentString([[mw_macro]],function(ok2,c) if ok2 and c then TheSim:SetPersistentString([[mw_macro_bak]],c,false) end TheSim:SetPersistentString([[mw_macro]],b,false) local n=select(2,b:gsub(string.char(10),[[]]))+1 Networking_SystemMessage([[mw_macro restored: ]]..n..[[ lines, previous version kept as backup]]) end) end) --RUN",
+    "length": 493,
+    "original_length": 493,
+    "hash": "474fec9ffe38",
     "flags": []
   },
   {
     "id": "8.7.1",
-    "order": 49,
+    "order": 50,
     "label": "8.7.1 (local) persistent string mgmt | sig function (1/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -601,7 +613,7 @@
   },
   {
     "id": "8.7.2",
-    "order": 50,
+    "order": 51,
     "label": "8.7.2 (local) persistent string mgmt | cleaner (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -613,7 +625,7 @@
   },
   {
     "id": "8.7.3",
-    "order": 51,
+    "order": 52,
     "label": "8.7.3 (local) persistent string mgmt | Run it. First paste the preview, check the numbers against your reader output, then change the first argument to true (3/3), broader search (false, true)",
     "mode": "LOCAL",
     "kind": "text",
@@ -625,7 +637,7 @@
   },
   {
     "id": "18",
-    "order": 52,
+    "order": 53,
     "label": "18 (Local) For clients so they don't get spammed by beefalo hp badge or hp bar announcers",
     "mode": "LOCAL",
     "kind": "code",
@@ -637,7 +649,7 @@
   },
   {
     "id": "19.1",
-    "order": 53,
+    "order": 54,
     "label": "19.1 (Local) Lock Mode Tap to target (cycle button removed)",
     "mode": "LOCAL",
     "kind": "code",
@@ -649,7 +661,7 @@
   },
   {
     "id": "19.2",
-    "order": 54,
+    "order": 55,
     "label": "19.2 (Local) Lock Mode Tap to target (optional) target pointer (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -661,7 +673,7 @@
   },
   {
     "id": "19.3",
-    "order": 55,
+    "order": 56,
     "label": "19.3 (Local) Lock Mode Tap to target (optional) target pointer (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -673,7 +685,7 @@
   },
   {
     "id": "20.1",
-    "order": 56,
+    "order": 57,
     "label": "20.1 (Local) Minimap (1/3) You need to reposition it with my btn placer | The stick will not work until 20.2 is ran after",
     "mode": "LOCAL",
     "kind": "code",
@@ -685,7 +697,7 @@
   },
   {
     "id": "20.1.2",
-    "order": 57,
+    "order": 58,
     "label": "20.1.2 (Local) Minimap circle | Replaces 20.1",
     "mode": "LOCAL",
     "kind": "code",
@@ -697,7 +709,7 @@
   },
   {
     "id": "20.2",
-    "order": 58,
+    "order": 59,
     "label": "20.2 (Local) Minimap (2/3) to zoom, open the map and zoom. note that the last position before you close the map will be the center of the minimap",
     "mode": "LOCAL",
     "kind": "code",
@@ -709,7 +721,7 @@
   },
   {
     "id": "20.3",
-    "order": 59,
+    "order": 60,
     "label": "20.3 (Local) Minimap Optional fade and remove btn bg",
     "mode": "LOCAL",
     "kind": "code",
@@ -721,7 +733,7 @@
   },
   {
     "id": "20.4",
-    "order": 60,
+    "order": 61,
     "label": "20.4 (local) Optional toggle to hide/show minimap(tap the sanity/brain badge to toggle)",
     "mode": "LOCAL",
     "kind": "code",
@@ -733,7 +745,7 @@
   },
   {
     "id": "20.5",
-    "order": 61,
+    "order": 62,
     "label": "20.5 (local) Minimap optional opaque",
     "mode": "LOCAL",
     "kind": "code",
@@ -745,7 +757,7 @@
   },
   {
     "id": "21.1",
-    "order": 62,
+    "order": 63,
     "label": "21.1 (Remote) Beefalo auto hitch and unhitching with beef bell warning | autorun dependency (1/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -757,7 +769,7 @@
   },
   {
     "id": "21.2",
-    "order": 63,
+    "order": 64,
     "label": "21.2 (Remote) BEEFALo AUTO HITCHING (2/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -769,7 +781,7 @@
   },
   {
     "id": "21.3",
-    "order": 64,
+    "order": 65,
     "label": "21.3 (Remote) BEEFALo AUTO HITCHING (3/5)",
     "mode": "REMOTE",
     "kind": "code",
@@ -781,7 +793,7 @@
   },
   {
     "id": "21.4",
-    "order": 65,
+    "order": 66,
     "label": "21.4 (Local) BEEFALO AUTO HITCHING (4/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -793,7 +805,7 @@
   },
   {
     "id": "21.5",
-    "order": 66,
+    "order": 67,
     "label": "21.5 (Local) Beefalo auto hitching (5/5)",
     "mode": "LOCAL",
     "kind": "code",
@@ -805,7 +817,7 @@
   },
   {
     "id": "22.1",
-    "order": 67,
+    "order": 68,
     "label": "22.1 (Local) Brightshade spawn block rangefinder (1/3) only visible during placing/planting stuff",
     "mode": "LOCAL",
     "kind": "code",
@@ -817,7 +829,7 @@
   },
   {
     "id": "22.2",
-    "order": 68,
+    "order": 69,
     "label": "22.2 (local) Brightshade spawn block rangefinder (2/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -829,7 +841,7 @@
   },
   {
     "id": "22.3",
-    "order": 69,
+    "order": 70,
     "label": "22.3 (local) Brightshade spawn block rangefinder (3/3)",
     "mode": "LOCAL",
     "kind": "code",
@@ -841,7 +853,7 @@
   },
   {
     "id": "23.1",
-    "order": 70,
+    "order": 71,
     "label": "23.1 (Local)  Alignment toggle (1/2)",
     "mode": "LOCAL",
     "kind": "code",
@@ -853,7 +865,7 @@
   },
   {
     "id": "23.2",
-    "order": 71,
+    "order": 72,
     "label": "23.2  (Local)  Alignment toggle (2/2)",
     "mode": "LOCAL",
     "kind": "code",
@@ -865,7 +877,7 @@
   },
   {
     "id": "24.1",
-    "order": 72,
+    "order": 73,
     "label": "24.1 (Remote) stack and group up item stacks on the ground (1/2)",
     "mode": "REMOTE",
     "kind": "code",
@@ -877,7 +889,7 @@
   },
   {
     "id": "24.2",
-    "order": 73,
+    "order": 74,
     "label": "24.2 (Remote) stack and group up item stacks on the ground (2/2)",
     "mode": "REMOTE",
     "kind": "code",
@@ -889,7 +901,7 @@
   },
   {
     "id": "25.1",
-    "order": 74,
+    "order": 75,
     "label": "25.1 (remote) prevent accidental attacks on Beefalo bonded with bell in your inventory",
     "mode": "REMOTE",
     "kind": "code",
@@ -901,7 +913,7 @@
   },
   {
     "id": "26.1",
-    "order": 75,
+    "order": 76,
     "label": "26.1 (Local) Chat screen+ (1/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -913,7 +925,7 @@
   },
   {
     "id": "26.2",
-    "order": 76,
+    "order": 77,
     "label": "26.2 (Local) Chat screen+ (2/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -925,7 +937,7 @@
   },
   {
     "id": "26.3",
-    "order": 77,
+    "order": 78,
     "label": "26.3 (Local) Chat screen+  (3/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -937,7 +949,7 @@
   },
   {
     "id": "26.4",
-    "order": 78,
+    "order": 79,
     "label": "26.4 (Local) Chat screen+ (4/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -949,7 +961,7 @@
   },
   {
     "id": "27.1",
-    "order": 79,
+    "order": 80,
     "label": "27.1 (local) Fig tree plant spacing helper (1/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -961,7 +973,7 @@
   },
   {
     "id": "27.2",
-    "order": 80,
+    "order": 81,
     "label": "27.2 (local) Fig tree plant spacing helper (2/4)",
     "mode": "LOCAL",
     "kind": "code",
@@ -973,7 +985,7 @@
   },
   {
     "id": "27.3",
-    "order": 81,
+    "order": 82,
     "label": "27.3 (local) Fig tree plant spacing helper (3/4) toggled Off by default",
     "mode": "LOCAL",
     "kind": "code",
@@ -985,7 +997,7 @@
   },
   {
     "id": "27.4",
-    "order": 82,
+    "order": 83,
     "label": "27.4 (local) Fig tree plant spacing helper (4/4) tap the button in chatscreen to toggle it on or off",
     "mode": "LOCAL",
     "kind": "code",
@@ -997,7 +1009,7 @@
   },
   {
     "id": "28.1",
-    "order": 83,
+    "order": 84,
     "label": "28.1 (local) remove Insanity visuals and probably all nightvision tints(only when low or no sanity)",
     "mode": "LOCAL",
     "kind": "code",
@@ -1009,7 +1021,7 @@
   },
   {
     "id": "28.2",
-    "order": 84,
+    "order": 85,
     "label": "28.2 (local) remove Insanity sound effects",
     "mode": "LOCAL",
     "kind": "text",
@@ -1021,7 +1033,7 @@
   },
   {
     "id": "29",
-    "order": 85,
+    "order": 86,
     "label": "29 (local) remove moggles night tint",
     "mode": "LOCAL",
     "kind": "code",
@@ -1033,55 +1045,55 @@
   },
   {
     "id": "30.1",
-    "order": 86,
+    "order": 87,
     "label": "30.1 (local) Wanda Ageless watch button (1/2)",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local C=ThePlayer.HUD.controls if C.ab1 then C.ab1:Kill() C.ab1=nil end if C.ab then C.ab:Kill() C.ab=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab1=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls1 or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
-    "length": 709,
-    "original_length": 709,
-    "hash": "1eddfc6fe2ad",
+    "text": "local C=ThePlayer.HUD.controls if C.ab1 then C.ab1:Kill() C.ab1=nil end if C.ab then C.ab:Kill() C.ab=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab1=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.224-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls1 or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M:wanda",
+    "length": 715,
+    "original_length": 715,
+    "hash": "1d35ed4ef21f",
     "flags": []
   },
   {
     "id": "30.2",
-    "order": 87,
+    "order": 88,
     "label": "30.2 (local) Wanda Ageless watch button (2/2)",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local P=ThePlayer if P._abt1 then P._abt1:Cancel() end if P._abt then P._abt:Cancel() P._abt=nil end P._abt1=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab1 if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_heal]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls1=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
-    "length": 639,
-    "original_length": 639,
-    "hash": "663a5f198a74",
+    "text": "local P=ThePlayer if P._abt1 then P._abt1:Cancel() end if P._abt then P._abt:Cancel() P._abt=nil end P._abt1=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab1 if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_heal]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls1=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M:wanda",
+    "length": 645,
+    "original_length": 645,
+    "hash": "f39988a22af5",
     "flags": []
   },
   {
     "id": "31.1",
-    "order": 88,
+    "order": 89,
     "label": "31.1 (local) Wanda Backstep Button (1/2)",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local C=ThePlayer.HUD.controls if C.ab2 then C.ab2:Kill() C.ab2=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab2=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.324-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls2 or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M",
-    "length": 671,
-    "original_length": 671,
-    "hash": "559b08b7bb18",
+    "text": "local C=ThePlayer.HUD.controls if C.ab2 then C.ab2:Kill() C.ab2=nil end local T=C.right_root local b=T:AddChild(require[[widgets/imagebutton]]([[images/global.xml]],[[square.tex]])) C.ab2=b local W,H=TheSim:GetScreenSize() local w=T:GetWorldPosition() local k=T:GetWorldScale().x b.image:SetScale(1.1/k) b:SetPosition((W*.694-w.x)/k,(H*.324-w.y)/k) b:Hide() b:SetOnClick(function() local P=ThePlayer local L=(P._Ls2 or {})[1] if not(L and L:IsValid()) then return end local I=P.replica.inventory if I.UseItemFromInvTile then I:UseItemFromInvTile(L) else P.components.playercontroller:DoAction(BufferedAction(P,nil,ACTIONS.CAST_POCKETWATCH,L,P:GetPosition())) end end) --M:wanda",
+    "length": 677,
+    "original_length": 677,
+    "hash": "ea373f784d81",
     "flags": []
   },
   {
     "id": "31.2",
-    "order": 89,
+    "order": 90,
     "label": "31.2 (local) Wanda Backstep Button (2/2)",
     "mode": "LOCAL",
     "kind": "code",
-    "text": "local P=ThePlayer if P._abt2 then P._abt2:Cancel() end P._abt2=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab2 if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_warp]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls2=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M",
-    "length": 593,
-    "original_length": 593,
-    "hash": "7c5900b9bac6",
+    "text": "local P=ThePlayer if P._abt2 then P._abt2:Cancel() end P._abt2=P:DoPeriodicTask(.4,function() local b=P.HUD.controls.ab2 if not b then return end local I=P.replica.inventory local o=I:GetOverflowContainer() local Ls={} for _,s in ipairs{I:GetItems(),I:GetEquips(),o and o:GetItems() or {}} do for _,v in pairs(s) do if v.prefab==[[pocketwatch_warp]] and v:HasTag([[pocketwatch_inactive]]) then Ls[#Ls+1]=v end end end P._Ls2=Ls if #Ls>0 then local r=Ls[1].replica.inventoryitem b:SetTextures(r:GetAtlas(),r:GetImage()) if not b.shown then b:Show() end elseif b.shown then b:Hide() end end) --M:wanda",
+    "length": 599,
+    "original_length": 599,
+    "hash": "4d5ae0e8da07",
     "flags": []
   },
   {
     "id": "misc-prevent-other-characters",
-    "order": 90,
+    "order": 91,
     "label": "MiSC (Local) prevent other characters from picking up winbot",
     "mode": "LOCAL",
     "kind": "code",
@@ -1093,7 +1105,7 @@
   },
   {
     "id": "misc-manually-save-for",
-    "order": 91,
+    "order": 92,
     "label": "MISC (remote) manually save | For people having disconnect freezing bug",
     "mode": "REMOTE",
     "kind": "code",
@@ -1105,7 +1117,7 @@
   },
   {
     "id": "misc-one-tap-open",
-    "order": 92,
+    "order": 93,
     "label": "MISC (LOCAL) ONE TAP OPEN CONSOLE | requires manual position over day clock",
     "mode": "LOCAL",
     "kind": "code",
@@ -1116,32 +1128,8 @@
     "flags": []
   },
   {
-    "id": "sample-prompt-to-update",
-    "order": 93,
-    "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
-    "mode": "",
-    "kind": "text",
-    "text": "Hey! I need help adjusting the coordinate values for a custom Don't Starve Together mobile console command. Because of my device's resolution and HUD scale, the virtual buttons/UI elements created by this script aren't aligning correctly with my screen. Here is my current one-liner command: [PASTE YOUR FULL COMMAND STRING HERE] I’ve attached a screenshot of my DST mobile game in-case you need to reference the layout. Can you calculate the math for the new positions/sizes and rewrite this into an updated, single-line command string that I can copy and paste directly into the game console?",
-    "length": 594,
-    "original_length": 594,
-    "hash": "3feb51b5dc49",
-    "flags": []
-  },
-  {
-    "id": "testserver-godmode-and-free",
-    "order": 94,
-    "label": "TESTSERVEr (Remote) godmode and free crafting",
-    "mode": "REMOTE",
-    "kind": "code",
-    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.health:SetPercent(1) p.components.hunger:SetPercent(1) p.components.hunger:Pause(true) p.components.sanity:SetPercent(1) p.components.sanity:SetRate(0)\n--RUN",
-    "length": 285,
-    "original_length": 285,
-    "hash": "462f2e40b8d8",
-    "flags": []
-  },
-  {
     "id": "32",
-    "order": 95,
+    "order": 94,
     "label": "32 (remote) Gramophone play indefinitely (normally plays for 62s)| for farmers",
     "mode": "REMOTE",
     "kind": "code",
@@ -1153,7 +1141,7 @@
   },
   {
     "id": "33.1",
-    "order": 96,
+    "order": 95,
     "label": "33.1 (local) quick telepoof + manual aiming (1/6",
     "mode": "LOCAL",
     "kind": "code",
@@ -1165,7 +1153,7 @@
   },
   {
     "id": "33.2",
-    "order": 97,
+    "order": 96,
     "label": "33.2 (local) quick telepoof + manual aiming (2/6)",
     "mode": "LOCAL",
     "kind": "code",
@@ -1177,7 +1165,7 @@
   },
   {
     "id": "33.3",
-    "order": 98,
+    "order": 97,
     "label": "33.3 (local) quick telepoof + manual aiming (3/6)",
     "mode": "LOCAL",
     "kind": "code",
@@ -1189,7 +1177,7 @@
   },
   {
     "id": "33.4",
-    "order": 99,
+    "order": 98,
     "label": "33.4 (local) quick telepoof + manual aiming (4/6)",
     "mode": "LOCAL",
     "kind": "code",
@@ -1201,7 +1189,7 @@
   },
   {
     "id": "33.5",
-    "order": 100,
+    "order": 99,
     "label": "33.5 (local) quick telepoof + manual aiming (5/6)",
     "mode": "LOCAL",
     "kind": "code",
@@ -1213,7 +1201,7 @@
   },
   {
     "id": "33.6",
-    "order": 101,
+    "order": 100,
     "label": "33.6 (local) quick telepoof + manual aiming (6/6)",
     "mode": "LOCAL",
     "kind": "code",
@@ -1221,6 +1209,30 @@
     "length": 609,
     "original_length": 609,
     "hash": "0afcf9b80e85",
+    "flags": []
+  },
+  {
+    "id": "sample-prompt-to-update",
+    "order": 101,
+    "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
+    "mode": "",
+    "kind": "text",
+    "text": "Hey! I need help adjusting the coordinate values for a custom Don't Starve Together mobile console command. Because of my device's resolution and HUD scale, the virtual buttons/UI elements created by this script aren't aligning correctly with my screen. Here is my current one-liner command: [PASTE YOUR FULL COMMAND STRING HERE] I’ve attached a screenshot of my DST mobile game in-case you need to reference the layout. Can you calculate the math for the new positions/sizes and rewrite this into an updated, single-line command string that I can copy and paste directly into the game console?",
+    "length": 594,
+    "original_length": 594,
+    "hash": "3feb51b5dc49",
+    "flags": []
+  },
+  {
+    "id": "testserver-godmode-and-free",
+    "order": 102,
+    "label": "TESTSERVEr (Remote) godmode and free crafting",
+    "mode": "REMOTE",
+    "kind": "code",
+    "text": "p=ThePlayer b=p.components.builder b:GiveAllRecipes() b.freebuildmode=true p.components.health:SetInvincible(true) p.components.health:SetPercent(1) p.components.hunger:SetPercent(1) p.components.hunger:Pause(true) p.components.sanity:SetPercent(1) p.components.sanity:SetRate(0)\n--RUN",
+    "length": 285,
+    "original_length": 285,
+    "hash": "462f2e40b8d8",
     "flags": []
   }
 ]
