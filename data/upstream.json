@@ -256,7 +256,7 @@
     "label": "21.1 (Remote) Beefalo auto hitch and unhitching with beef bell warning | autorun dependency (1/5)"
   },
   {
-    "text": "local p=ThePlayer function MW_BF(id) local x,_,z=p.Transform:GetWorldPosition() local b for _,e in ipairs(TheSim:FindEntities(x,0,z,12,{[[_health]]},{[[INLIMBO]]})) do local o,i=pcall(function() return e.Network:GetNetworkID() end) if o and i==id and e.components.hitchable then b=e end end local c=b and b.components.hitchable if not(c and c:GetHitch()) then return end local h=c:GetHitch() if not(type(h)==[[table]] and h.components and h.components.hitcher) then h=nil local bx,_,bz=b.Transform:GetWorldPosition() for _,e in ipairs(TheSim:FindEntities(bx,0,bz,8,nil,{[[INLIMBO]],[[hitcher]]})) do if e.components.hitcher then h=e break end end end return b,h end --M",
+    "text": "local p=ThePlayer function MW_BF(id) local x,_,z=p.Transform:GetWorldPosition() local b for _,e in ipairs(TheSim:FindEntities(x,0,z,12,{[[_health]]},{[[INLIMBO]]})) do local o,i=pcall(function() return e.Network:GetNetworkID() end) if o and i==id and e.components.hitchable then b=e end end local c=b and b.components.hitchable if not c then return end local h=c:GetHitch() if h and not(type(h)==[[table]] and h.components and h.components.hitcher) then h=nil local bx,_,bz=b.Transform:GetWorldPosition() for _,e in ipairs(TheSim:FindEntities(bx,0,bz,8,nil,{[[INLIMBO]],[[hitcher]]})) do if e.components.hitcher then h=e break end end end return b,h end --M",
     "label": "21.2 (Remote) BEEFALo AUTO HITCHING (2/5)"
   },
   {
@@ -402,6 +402,10 @@
   {
     "text": "local P=ThePlayer local C=P.HUD.controls local m=C.bm local A=P._bA local wp=C:GetWorldPosition() local sc=C:GetScale().x if P._bat then P._bat:Cancel() end P._bat=P:DoPeriodicTask(.03,function() if not A.i then return end local p=TheInput:GetScreenPosition() local a,c,u,v=A.f(p.x,p.y) if not a then return end local ok=TheWorld.Map:IsPassableAtPoint(a,0,c) local r=P._br if r and r:IsValid() then r.Transform:SetPosition(a,0,c) r.AnimState:SetMultColour(ok and 0 or 1,ok and 1 or 0,.2,1) r:Show() else m:SetPosition((u-wp.x)/sc,(v-wp.y)/sc) m:SetTint(ok and 0 or 1,ok and 1 or 0,.2,.9) m:Show() end end) --M",
     "label": "33.6 (local) quick telepoof + manual aiming (6/6)"
+  },
+  {
+    "text": "local A=ACTIONS.ATTACK A._mw=A._mw or A.fn A.fn=function(act) local t,d=act.target,act.doer if d and d.prefab==[[wendy]] and t and t.prefab==[[abigail]] then return false end return A._mw(act) end --M:wendy",
+    "label": "34 (remote) Prevent Wendy from hitting her sister"
   },
   {
     "text": "Hey! I need help adjusting the coordinate values for a custom Don't Starve Together mobile console command. Because of my device's resolution and HUD scale, the virtual buttons/UI elements created by this script aren't aligning correctly with my screen. Here is my current one-liner command: [PASTE YOUR FULL COMMAND STRING HERE] I’ve attached a screenshot of my DST mobile game in-case you need to reference the layout. Can you calculate the math for the new positions/sizes and rewrite this into an updated, single-line command string that I can copy and paste directly into the game console?",

@@ -286,8 +286,8 @@
   },
   "21.2": {
     "first_seen": "2026-11-11",
-    "changed": "2026-11-13",
-    "hash": "f189d12d5b84"
+    "changed": "2026-11-21",
+    "hash": "6134bc7eff0d"
   },
   "21.3": {
     "first_seen": "2026-11-11",
@@ -513,5 +513,10 @@
     "first_seen": "2026-11-20",
     "changed": null,
     "hash": "474fec9ffe38"
+  },
+  "34": {
+    "first_seen": "2026-11-21",
+    "changed": null,
+    "hash": "7ddd43e39249"
   }
 }

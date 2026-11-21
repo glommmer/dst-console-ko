@@ -773,10 +773,10 @@
     "label": "21.2 (Remote) BEEFALo AUTO HITCHING (2/5)",
     "mode": "REMOTE",
     "kind": "code",
-    "text": "local p=ThePlayer function MW_BF(id) local x,_,z=p.Transform:GetWorldPosition() local b for _,e in ipairs(TheSim:FindEntities(x,0,z,12,{[[_health]]},{[[INLIMBO]]})) do local o,i=pcall(function() return e.Network:GetNetworkID() end) if o and i==id and e.components.hitchable then b=e end end local c=b and b.components.hitchable if not(c and c:GetHitch()) then return end local h=c:GetHitch() if not(type(h)==[[table]] and h.components and h.components.hitcher) then h=nil local bx,_,bz=b.Transform:GetWorldPosition() for _,e in ipairs(TheSim:FindEntities(bx,0,bz,8,nil,{[[INLIMBO]],[[hitcher]]})) do if e.components.hitcher then h=e break end end end return b,h end --M",
-    "length": 669,
-    "original_length": 669,
-    "hash": "f189d12d5b84",
+    "text": "local p=ThePlayer function MW_BF(id) local x,_,z=p.Transform:GetWorldPosition() local b for _,e in ipairs(TheSim:FindEntities(x,0,z,12,{[[_health]]},{[[INLIMBO]]})) do local o,i=pcall(function() return e.Network:GetNetworkID() end) if o and i==id and e.components.hitchable then b=e end end local c=b and b.components.hitchable if not c then return end local h=c:GetHitch() if h and not(type(h)==[[table]] and h.components and h.components.hitcher) then h=nil local bx,_,bz=b.Transform:GetWorldPosition() for _,e in ipairs(TheSim:FindEntities(bx,0,bz,8,nil,{[[INLIMBO]],[[hitcher]]})) do if e.components.hitcher then h=e break end end end return b,h end --M",
+    "length": 657,
+    "original_length": 657,
+    "hash": "6134bc7eff0d",
     "flags": []
   },
   {
@@ -1212,8 +1212,20 @@
     "flags": []
   },
   {
-    "id": "sample-prompt-to-update",
+    "id": "34",
     "order": 101,
+    "label": "34 (remote) Prevent Wendy from hitting her sister",
+    "mode": "REMOTE",
+    "kind": "code",
+    "text": "local A=ACTIONS.ATTACK A._mw=A._mw or A.fn A.fn=function(act) local t,d=act.target,act.doer if d and d.prefab==[[wendy]] and t and t.prefab==[[abigail]] then return false end return A._mw(act) end --M:wendy",
+    "length": 206,
+    "original_length": 206,
+    "hash": "7ddd43e39249",
+    "flags": []
+  },
+  {
+    "id": "sample-prompt-to-update",
+    "order": 102,
     "label": "Sample prompt to update the button cmds, attach your own screenshot to ai and the command you want to update",
     "mode": "",
     "kind": "text",
@@ -1225,7 +1237,7 @@
   },
   {
     "id": "testserver-godmode-and-free",
-    "order": 102,
+    "order": 103,
     "label": "TESTSERVEr (Remote) godmode and free crafting",
     "mode": "REMOTE",
     "kind": "code",
