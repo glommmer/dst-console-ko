@@ -42,6 +42,9 @@ details.guide[open]>summary::after{content:"접기"}
 .guide li{margin:0 0 12px}
 .guide li b{display:block}
 .guide p{margin:4px 0}
+.closed{margin:14px 0 4px;padding:14px 16px;border-left:4px solid var(--warn);background:var(--warn-bg);color:var(--ink);border-radius:10px;font-size:.95rem}
+.closed b{color:var(--warn)}
+.closed p{margin:4px 0 0}
 .callout{background:var(--panel2);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:.94rem}
 .toolbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;margin-top:12px}
 .search{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
@@ -106,6 +109,11 @@ footer p{margin:6px 0}
     </div>
   </header>
 
+  <section class="closed" role="note" aria-label="운영 종료 안내">
+    <b>운영을 마쳤습니다 (2026년 11월 23일)</b>
+    <p>원작자 페이지가 따옴표 대신 <code>[[ ]]</code> 를 쓰도록 바뀌어, 이 페이지를 따로 운영할 이유가 사라졌습니다. 앞으로는 원작자의 새 명령이나 수정이 이 페이지에 반영되지 않습니다. 최신 명령은 <a href="https://jarlini69420-bit.github.io/Read-only-Public-Clipboard-/" target="_blank" rel="noopener">원작자 페이지(영어)</a>에서 확인해 주세요. 아래 한국어 설명은 참고용으로 남겨 둡니다.</p>
+  </section>
+
   <details class="guide card" id="guide">
     <summary>처음이신가요? 이렇게 사용하세요</summary>
     <div class="guide-body">
@@ -136,7 +144,7 @@ footer p{margin:6px 0}
 
   <footer>
     <p>명령 원작자: <a href="https://github.com/jarlini69420-bit/Read-only-Public-Clipboard-" target="_blank" rel="noopener">StarvedSteve (Read-only Public Clipboard)</a>, MIT License. 이 페이지는 원작자와 관련 없는 비공식 한국어 정리본입니다.</p>
-    <p>원작자 저장소를 매시간 확인해 새 명령을 자동으로 반영합니다. 새 명령의 한국어 설명은 하루 안에 채워집니다.</p>
+    <p>이 페이지는 2026년 11월 23일에 운영을 마쳤습니다. 원작자 저장소의 이후 변경은 반영되지 않습니다.</p>
     <p><a href="https://github.com/glommmer/dst-console-ko" target="_blank" rel="noopener">이 페이지의 저장소</a></p>
   </footer>
 </div>
@@ -195,7 +203,7 @@ footer p{margin:6px 0}
     else if(i.isUpd)head.appendChild(badge("b-upd","업데이트"));
     box.appendChild(head);
     if(!k){
-      box.appendChild(el("p",null,"원작자가 새로 올린 명령입니다. 한국어 설명은 하루 안에 채워집니다."));
+      box.appendChild(el("p",null,"원작자가 새로 올린 명령입니다. 이 페이지는 운영을 마쳐 한국어 설명이 없습니다."));
       box.appendChild(el("p","orig","원문 제목: "+c.label));
     }else{
       if(!i.ready)box.appendChild(el("div","warnbox","원작자가 이 명령을 고쳤습니다. 아래 설명은 고치기 전 기준이라 지금과 조금 다를 수 있어요."));
@@ -258,7 +266,7 @@ footer p{margin:6px 0}
   .then(function(r){
     model=build(r[0],r[1],r[2]);
     var m=r[3];
-    if(m.synced_at){var d=new Date(m.synced_at);$("synced").textContent="원작자 최신 내용 반영: "+d.toLocaleString("ko-KR",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});}
+    if(m.synced_at){var d=new Date(m.synced_at);$("synced").textContent="마지막으로 원작자 내용 반영: "+d.toLocaleString("ko-KR",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});}
     else $("synced").textContent="";
     renderChips();render();
     if(location.hash){var t=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(t)t.scrollIntoView();}
